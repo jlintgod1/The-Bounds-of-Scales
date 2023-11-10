@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8c5a2e6a1be184f903f082baf5a322, type: 3}
+  m_Name: CityTheme
+  m_EditorClassIdentifier: 
+  LevelName: City
+  BackgroundMaterial: {fileID: 0}
+  Music: {fileID: 0}
+  GameplayChunks:
+  - {fileID: 4633067230689913680, guid: 4bf97d3499a01a44788cafdd922fb655, type: 3}
+  - {fileID: 5766738270749145755, guid: 16884f1dc045568418e948aafce58ea0, type: 3}
+  - {fileID: 5251537560580345818, guid: 0ffecd4bb1fefec4e95ac30f3fab410e, type: 3}
+  - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
+  - {fileID: 3063096102966535814, guid: 01019ac9433dc4c4ba47a9135966411d, type: 3}
+  - {fileID: 6839593684909816282, guid: 373312163365f3240aa2bd63a175c24d, type: 3}
+  HardGameplayChunks:
+  - {fileID: 3025836868228558002, guid: cdb6793164fec16448dc5efb7e0235b5, type: 3}
+  - {fileID: 1864966394089731827, guid: ab41b99408866a241bb49fe386cb9798, type: 3}
+  - {fileID: 1332077668936316037, guid: 820723335732d27429a581ed328ff08b, type: 3}
+  ThemeEnemies:
+  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
+  ExitChunk: {fileID: 2734993825225769775, guid: 8d866c7440e22af4eaf32d93666a3659, type: 3}
+  LevelLength: 5
+  ExitLevels:
+  - {fileID: 11400000}
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 3316ca679334bd241a5ce90b90c797af, type: 2}
+  tiles:
+  - {fileID: 11400000, guid: 2af5240622903724f8f5de79dee40457, type: 2}
+  - {fileID: 11400000, guid: dd7d2ab02926d074e86e6977c53e6b67, type: 2}
+  - {fileID: 11400000, guid: e0cb215f77c5ac842bce2cf3eaa73616, type: 2}
+  - {fileID: 11400000, guid: 66e64509cb58b634ba6d666477943911, type: 2}
+  - {fileID: 11400000, guid: bcdf39e4c5f735b4993dc4e4cc00b2be, type: 2}
+  - {fileID: 11400000, guid: 6092e2660613e524988afb8ad1ff71e1, type: 2}
+  - {fileID: 11400000, guid: 8ab90638c00c2384aa911544d2e4e8a7, type: 2}
+  - {fileID: 11400000, guid: 3da2492eaae55ec48b8ab795de67c356, type: 2}
+  - {fileID: 11400000, guid: e1cd74beb68187e42b8f7a524cf867d9, type: 2}
+  - {fileID: 11400000, guid: 2957f4524498bfc489321afd49bd917b, type: 2}

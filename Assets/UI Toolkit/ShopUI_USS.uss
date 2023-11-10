@@ -1,0 +1,5 @@
+Scroller {
+    width: 8px;
+    display: flex;
+    visibility: visible;
+}
