@@ -6,17 +6,12 @@ using UnityEngine.EventSystems;
 public class WormEnemy : Controller
 {
     public Collider2D headCollider;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (Dead) return;
-        if (Mathf.Abs(transform.position.y - GameManager.Instance.Camera.transform.position.y) > 15) return;
+        if (Mathf.Abs(transform.position.y - Camera.main.transform.position.y) > 15) return;
         base.FixedUpdate();
 
         rigidbody2D.velocity = rigidbody2D.velocity * Vector2.up + Vector2.right * direction * speed;
@@ -49,14 +44,6 @@ public class WormEnemy : Controller
     {
         animator.SetBool("Falling", true);
         base.Die(Instigator);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && collision.IsTouching(headCollider))
-        {
-            TakeDamage(collision.gameObject, 1);
-        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

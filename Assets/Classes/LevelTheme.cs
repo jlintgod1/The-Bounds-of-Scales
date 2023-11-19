@@ -27,4 +27,6 @@ public class LevelTheme : ScriptableObject
 
     [Tooltip("0=Rule Tile, 1-9=Static tiles for the sides")]
     public TileBase[] tiles = new TileBase[10];
+    [Tooltip("Material used for the tiles.")]
+    public Material TileMaterial;
 }

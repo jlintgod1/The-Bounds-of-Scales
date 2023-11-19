@@ -3,7 +3,12 @@ guid: df8c5a2e6a1be184f903f082baf5a322
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - BackgroundMaterial: {instanceID: 0}
+  - Music: {instanceID: 0}
+  - EntranceChunk: {instanceID: 0}
+  - ExitChunk: {instanceID: 0}
+  - TileMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

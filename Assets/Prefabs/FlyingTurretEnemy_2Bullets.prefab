@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7938274456627927575, guid: 42851d7eb840056479a6e131fbcc5a90, type: 3}
       propertyPath: shootInterval
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8327709100131935726, guid: 42851d7eb840056479a6e131fbcc5a90, type: 3}
       propertyPath: m_Sprite

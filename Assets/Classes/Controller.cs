@@ -7,10 +7,10 @@ using UnityEngine;
 // Base class for anything that runs around, jumps, attacks, etc., like the player and enemies 
 public class Controller : MonoBehaviour
 {
-    public new Rigidbody2D rigidbody2D;
+    protected new Rigidbody2D rigidbody2D;
     public new Collider2D collider;
-    public SpriteRenderer spriteRenderer;
-    public Animator animator;
+    protected SpriteRenderer spriteRenderer;
+    protected Animator animator;
 
     public int Health;
     public int MaxHealth;
@@ -31,7 +31,7 @@ public class Controller : MonoBehaviour
 
     public bool IsFalling()
     {
-        return transform.InverseTransformVector(rigidbody2D.velocity).y < 0;
+        return transform.InverseTransformVector(rigidbody2D.velocity).y < -0.1f && !IsGrounded();
     }
     // -1: Appear on Left, 0: Don't wrap, 1: Appear on Right
     public virtual int CanWrapAround()
@@ -55,6 +55,12 @@ public class Controller : MonoBehaviour
         //rigidbody2D.simulated = false;
         //if (animator != null)
         //    animator.enabled = false;
+    }
+    protected void Start()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     protected void FixedUpdate()
@@ -80,6 +86,7 @@ public class Controller : MonoBehaviour
 
     protected virtual void Die(GameObject Instigator)
     {
+        if (Dead) return; // You can't die twice!!
         Health = 0;
         Dead = true;
 

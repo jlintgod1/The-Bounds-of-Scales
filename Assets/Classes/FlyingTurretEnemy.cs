@@ -17,6 +17,7 @@ public class FlyingTurretEnemy : Controller
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         initialPosition = transform.position;
     }
 
@@ -55,5 +56,12 @@ public class FlyingTurretEnemy : Controller
             float bulletAngle = (i * (360f / bulletCount) + transform.eulerAngles.z);
             SpawnBullet(new Vector2(Mathf.Sin(Mathf.Deg2Rad * bulletAngle), Mathf.Cos(Mathf.Deg2Rad * bulletAngle)), bulletAngle);
         }
+    }
+
+    public override void TakeDamage(GameObject Instigator, int Damage)
+    {
+        if (Instigator.GetComponent<PlayerController_Logic>() != null 
+            && (Instigator.GetComponent<PlayerController_Logic>().InJumpPanelAbility || Instigator.GetComponent<PlayerController_Logic>().FireTimer > 0))
+            base.TakeDamage(Instigator, Damage);
     }
 }

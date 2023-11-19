@@ -38,9 +38,11 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveData saveData = new SaveData();
 
+#if UNITY_WEBGL
     // WebGL caches file changes, which is why we need this to push the changes immediately?
     [DllImport("__Internal")]
     public static extern void FlushFileWrites();
+#endif
     public static void SaveSaveFile()
     {
         // File paths for the main save file along with its backups
@@ -71,9 +73,9 @@ public class SaveManager : MonoBehaviour
         formatter.Serialize(stream, saveData);
         // Close the file stream
         stream.Close();
-        #if UNITY_WEBGL
+#if UNITY_WEBGL
         FlushFileWrites();
-        #endif
+#endif
     }
 
     public static SaveData.SaveLoadState LoadSaveFile()

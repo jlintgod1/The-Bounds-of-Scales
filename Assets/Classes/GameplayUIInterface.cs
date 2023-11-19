@@ -9,6 +9,8 @@ public class GameplayUIInterface : MonoBehaviour
     public TMP_Text VenomCounter;
     public Image[] HealthBars;
     public Sprite[] HealthBarSprites;
+    public Animator[] PanelAnimators;
+    public Slider Timer;
 
     public void UpdateHealth(int Health, int MaxHealth)
     {

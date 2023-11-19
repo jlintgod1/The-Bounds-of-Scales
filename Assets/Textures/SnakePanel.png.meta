@@ -131,7 +131,7 @@ TextureImporter:
         width: 32
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,48 +139,6 @@ TextureImporter:
       bones: []
       spriteID: fab77d5d3f403ef478cdb731108c3eea
       internalID: 686714474
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SnakePanel_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65991f8291bff234cbbde2cd3abd0870
-      internalID: -78108328
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SnakePanel_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 163012326413e72419bc21d06d76adba
-      internalID: 1832294128
       vertices: []
       indices: 
       edges: []
@@ -197,9 +155,6 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       SnakePanel_0: 686714474
-      SnakePanel_1: 1489169893
-      SnakePanel_2: -78108328
-      SnakePanel_3: 1832294128
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

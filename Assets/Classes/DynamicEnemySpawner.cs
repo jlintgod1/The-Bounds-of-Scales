@@ -27,7 +27,8 @@ public class DynamicEnemySpawner : MonoBehaviour
             else
                 newEnemy = EasyEnemies[Random.Range(0, EasyEnemies.Count)];
 
-            newEnemy = Instantiate(newEnemy, transform.position, transform.rotation, transform.parent);
+            if (newEnemy != null)
+                newEnemy = Instantiate(newEnemy, transform.position, transform.rotation, transform.parent);
         }
         Destroy(gameObject);
     }

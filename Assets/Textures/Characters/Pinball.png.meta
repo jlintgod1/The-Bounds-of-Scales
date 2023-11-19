@@ -353,6 +353,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Pinball_11
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06913061d46bc6649bd306da9ca0fdbb
+      internalID: -334244615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -367,6 +388,7 @@ TextureImporter:
       Pinball_0: -1112908930
       Pinball_1: -1437337109
       Pinball_10: -944191492
+      Pinball_11: -334244615
       Pinball_2: 1052051074
       Pinball_3: -1445177771
       Pinball_4: -1139614112

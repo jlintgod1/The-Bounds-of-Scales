@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8c5a2e6a1be184f903f082baf5a322, type: 3}
+  m_Name: ArcadeTheme
+  m_EditorClassIdentifier: 
+  LevelName: Jake's Arcade and Game Inc.
+  BackgroundMaterial: {fileID: 2100000, guid: 180a58b7ca4ec2b4ead5ceecabe03b55, type: 2}
+  Music: {fileID: 0}
+  GameplayChunks:
+  - {fileID: 4633067230689913680, guid: 4bf97d3499a01a44788cafdd922fb655, type: 3}
+  - {fileID: 5251537560580345818, guid: 0ffecd4bb1fefec4e95ac30f3fab410e, type: 3}
+  - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
+  - {fileID: 6839593684909816282, guid: 373312163365f3240aa2bd63a175c24d, type: 3}
+  - {fileID: 7032922358768205224, guid: 9a240eac2eaac224a8db71f8d824364f, type: 3}
+  - {fileID: 4071384644734719400, guid: afa4bf7d4364db94aaa8445aa389173a, type: 3}
+  - {fileID: 8315690002677179451, guid: d90a7f444c247b542bb7e90a1a9005d3, type: 3}
+  HardGameplayChunks:
+  - {fileID: 3025836868228558002, guid: cdb6793164fec16448dc5efb7e0235b5, type: 3}
+  - {fileID: 5826935300553624247, guid: eb43b18f1fbb79d4fa88da968a68bebe, type: 3}
+  - {fileID: 4262012270465107077, guid: ecc29918849c2bd469c7550351795c87, type: 3}
+  ThemeEnemies:
+  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
+  ExitChunk: {fileID: 2734993825225769775, guid: 8d866c7440e22af4eaf32d93666a3659, type: 3}
+  LevelLength: 6
+  ExitLevels:
+  - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
+  - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
+  - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
+  tiles:
+  - {fileID: 11400000, guid: 811b97f41d54fae42b82a601f72dcd22, type: 2}
+  - {fileID: 11400000, guid: 71dbadb328a69084fadb8bf7f1646e34, type: 2}
+  - {fileID: 11400000, guid: c5dce46dcfa19314d83ad4ddcce891af, type: 2}
+  - {fileID: 11400000, guid: 2b8ed9c7f5e2a71469d8237b09f656f4, type: 2}
+  - {fileID: 11400000, guid: 7c69b9d6fcc166c43ac10f4b25e99238, type: 2}
+  - {fileID: 11400000, guid: 0704a549d1ccd6147b6edfb03d251b41, type: 2}
+  - {fileID: 11400000, guid: 758155af3df951045b6f0c43fcf2a379, type: 2}
+  - {fileID: 11400000, guid: b78e6eff8354f8244b58457bda9e1a2b, type: 2}
+  - {fileID: 11400000, guid: 9d1b31005a1472748872b95fad34c494, type: 2}
+  - {fileID: 11400000, guid: b67328b3c79bf944b95275a35ed53d8c, type: 2}
+  TileMaterial: {fileID: -876546973899608171, guid: cfcc42228dd10d44987fc7bea83c350d, type: 3}

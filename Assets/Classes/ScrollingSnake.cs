@@ -22,6 +22,13 @@ public class ScrollingSnake : MonoBehaviour
         return true;
     }
 
+    public void UpdatePanelTier() 
+    {
+        PanelTier = GameManager.Instance.GetUpgradeCount("JumpPanels")
+                + GameManager.Instance.GetUpgradeCount("FirePanels")
+                + GameManager.Instance.GetUpgradeCount("ScalePanels");
+    }
+
     void UpdatePanels()
     {
         if (PanelTier <= 0) return;
@@ -35,7 +42,7 @@ public class ScrollingSnake : MonoBehaviour
 
         for (int i = 0; i < PanelTier * 3; i++)
         {
-            GameObject panelClone = Instantiate(SnakePanelPrefabs[Random.Range(0,PanelTier)], transform.position - new Vector3(separation * (i + 1) * transform.localScale.x + Random.Range(-4, 4), -0.75f, 0.1f), Quaternion.identity, transform);
+            GameObject panelClone = Instantiate(SnakePanelPrefabs[Random.Range(0,PanelTier)], transform.position - new Vector3(separation * (i + 1) * transform.localScale.x + Random.Range(-2, 2), -0.75f, 0.1f), Quaternion.identity, transform);
             SpawnedSnakePanels.Add(panelClone);
         }
     }
@@ -82,9 +89,7 @@ public class ScrollingSnake : MonoBehaviour
 
         if (!IsOffscreen)
         {
-            PanelTier = GameManager.Instance.GetUpgradeCount("JumpPanels")
-                + GameManager.Instance.GetUpgradeCount("FirePanels")
-                + GameManager.Instance.GetUpgradeCount("ScalePanels");
+            UpdatePanelTier();
             UpdatePanels();
         }
     }

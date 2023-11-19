@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2315722604221620865}
   - component: {fileID: 8589390573893294078}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Jetpack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1909615677436833989}
   - component: {fileID: 3707603734700267494}
   - component: {fileID: 7938274456627927575}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FlyingTurretEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -247,10 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10edd1c9cdc0e1f46bfeab43cd5019ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody2D: {fileID: 1909615677436833989}
   collider: {fileID: 3707603734700267494}
-  spriteRenderer: {fileID: 8327709100131935726}
-  animator: {fileID: 0}
   Health: 1
   MaxHealth: 1
   speed: 0
@@ -260,6 +257,8 @@ MonoBehaviour:
   face: {fileID: 3535049602395868402}
   jetPack: {fileID: 8589390573893294078}
   bulletTemplate: {fileID: 3715366070003400158, guid: 2bdc129906a077741a0e4750c119e33c, type: 3}
+  shootInterval: 3
+  bulletCount: 4
 --- !u!1 &5886199390987810678
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 721398659070544539}
   - component: {fileID: 3535049602395868402}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,7 +7,7 @@ public class LevelExit : MonoBehaviour
 {
     public TMP_Text LevelText;
     public LevelTheme LevelTheme;
-    public int ExitIndex;
+    public int ExitIndex = -1;
     
     public void UpdateLevelExit(LevelTheme level)
     {

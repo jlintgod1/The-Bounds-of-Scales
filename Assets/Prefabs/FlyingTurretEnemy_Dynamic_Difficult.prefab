@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4284656631274128245
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1085268007408131100, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_Name
+      value: FlyingTurretEnemy_Dynamic Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: EasyEnemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: HardEnemies.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: EasyEnemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: HardEnemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 9143646220169647493, guid: 5b2603ca5be30e0429618672b913a8df, type: 3}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: HardEnemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 9143646220169647493, guid: 5b2603ca5be30e0429618672b913a8df, type: 3}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: HardEnemies.Array.data[2]
+      value: 
+      objectReference: {fileID: 5844084184232354411, guid: 42851d7eb840056479a6e131fbcc5a90, type: 3}
+    - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: HardEnemies.Array.data[3]
+      value: 
+      objectReference: {fileID: 3411918188185210527, guid: bb28e9d979a464e4fbda79a6b5e26868, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
