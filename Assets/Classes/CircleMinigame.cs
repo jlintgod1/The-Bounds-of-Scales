@@ -27,23 +27,22 @@ public class CircleMinigame : MonoBehaviour
     }
     IEnumerator SpawnAnimation() 
     {
-        for (float i = 0; i <= 1; i+=0.01f)
+        for (float i = 0; i <= 1; i += Time.unscaledDeltaTime)
         {
             backgroundRenderer.material.SetFloat("_Alpha", i);
             mask.alphaCutoff = 1 - i;
-            yield return new WaitForSecondsRealtime(0.01f);
+            active = i >= 0.5;
+            yield return null;
         }
-
-        active = true;
     }
     IEnumerator DisappearAnimation()
     {
         active = false;
-        for (float i = 1; i >= 0; i -= 0.01f)
+        for (float i = 1; i >= 0; i -= Time.unscaledDeltaTime)
         {
             backgroundRenderer.material.SetFloat("_Alpha", i);
             mask.alphaCutoff = 1 - i;
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return null;
         }
         Destroy(gameObject);
     }
@@ -61,6 +60,7 @@ public class CircleMinigame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        backgroundRenderer.material.SetFloat("_RealTime", Time.realtimeSinceStartup);
         if (!active) return;
         HitAlpha = Mathf.Max(HitAlpha - Time.unscaledDeltaTime * 2.5f, 0);
 

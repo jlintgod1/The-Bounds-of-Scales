@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.DualShock;
+using UnityEditor.Rendering;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -33,7 +34,6 @@ public class DialogueManager : MonoBehaviour
         public List<string> speakingCharacters;
     }
     public static DialogueManager Instance { get; private set; }
-    InputActions inputActions;
     public Animator dialogueBox;
     public TMP_Text dialogueName;
     public TMP_Text dialogueText;
@@ -53,9 +53,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         Instance = this;
-
-        inputActions = new();
-        inputActions.Enable();
     }
     public void RunDialogue(DialogueInfo dialogueInfo)
     {
@@ -85,6 +82,7 @@ public class DialogueManager : MonoBehaviour
         dialogueName.text = currentCharacter.name;
         dialogueIcon.sprite = currentCharacter.icon;
         dialogueIcon.gameObject.SetActive(currentCharacter.icon != null);
+        dialogueText.text = "";
 
         StopCoroutine(TypeSentence());
         StartCoroutine(TypeSentence());
@@ -118,16 +116,31 @@ public class DialogueManager : MonoBehaviour
 
         dialogueText.text = "";
         string finalLine = ParseString(currentDialogueInfo.lines[currentLine]);
+        bool inTag = false;
         foreach (char letter in finalLine.ToCharArray())
         {
             dialogueText.text += letter;
+
+            if (letter == '<')
+                inTag = true;
+            else if (letter == '>')
+                inTag = false;
+
             //audioManager.Play(dialogueStored.audioClips[currentline-1]);
-            yield return new WaitForSecondsRealtime(0.033f);
-            
-            if (dialogueText.isTextOverflowing) {
-                RectTransform textRect = dialogueText.GetComponent<RectTransform>();
-                textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y + 16);
-                textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, textRect.anchoredPosition.y + 16);
+            if (!inTag)
+            {
+                while (PauseMenu.Paused)
+                {
+                    yield return null;
+                }
+                yield return new WaitForSecondsRealtime(0.033f);
+
+                if (dialogueText.isTextOverflowing)
+                {
+                    RectTransform textRect = dialogueText.GetComponent<RectTransform>();
+                    textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y + 16);
+                    textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, textRect.anchoredPosition.y + 16);
+                }
             }
         }
         //audioManager.Stop("Voice");

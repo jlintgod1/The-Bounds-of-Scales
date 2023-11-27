@@ -8,6 +8,7 @@ public class LevelExit : MonoBehaviour
     public TMP_Text LevelText;
     public LevelTheme LevelTheme;
     public int ExitIndex = -1;
+    public float AdditionalDifficulty;
     
     public void UpdateLevelExit(LevelTheme level)
     {
@@ -26,7 +27,7 @@ public class LevelExit : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.OnEnterLevelExit(LevelTheme);
+            GameManager.Instance.OnEnterLevelExit(this);
         }
     }
 }

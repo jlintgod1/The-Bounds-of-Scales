@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnakePanel_Scale
       objectReference: {fileID: 0}
+    - target: {fileID: 1664035484055797574, guid: 2efc3f3417be8074397e754028204cfb, type: 3}
+      propertyPath: m_TagString
+      value: ScalePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2551962407025745161, guid: 2efc3f3417be8074397e754028204cfb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 697831385ba359d4583bc77880518a84, type: 3}
     - target: {fileID: 8024984467693963832, guid: 2efc3f3417be8074397e754028204cfb, type: 3}
       propertyPath: m_Color.b
       value: 1

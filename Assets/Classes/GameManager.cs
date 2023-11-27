@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -15,25 +16,27 @@ public class GameManager : MonoBehaviour
     public static Vector2 CONST_ScreenDimensions = new(384, 216);
 
     static public GameManager Instance { get; private set; }
+    public LocalAudioManager MusicManager { get; private set; }
     public ScrollingSnake Snake { get; private set; }
+    public GameObject SnakeTemplate;
     private Vector3 SnakeInitialPosition = new Vector3(-999, -999, -999);
     public PlayerController_Logic Player { get; private set; }
+    public GameObject PlayerTemplate;
     private Vector3 PlayerInitialPosition = new Vector3(-999, -999, -999);
     public SpriteRenderer LevelBackground;
     public GameplayUIInterface UI;
     public ShopInterface UI_Shop;
-    public GameObject UI_MainMenu;
-    public Animator ScreenTransition;
-    public GameObject VisualEffectTemplate;
-    public GameObject QuickstartPortalTemplate;
-    public Vector2 QuickstartPortalLocation;
+    public MainMenu UI_MainMenu;
+    public List<GameObject> HeadstartPortalTemplate;
+    public Vector2 HeadstartPortalLocation;
     public GameObject CircleMinigameTemplate;
     public GameObject CircleMinigameCollectibleTemplate;
 
     public Grid TilemapGrid;
     public TileBase[] DefaultLevelTiles = new Tile[10];
     public LevelTheme CurrentLevelTheme;
-    public LevelTheme DefaultLevelTheme;
+    [Tooltip("Element 0 should be the default level theme, and the last element should be the Core.")]
+    public List<LevelTheme> AllLevelThemes;
     public List<GameObject> SpawnedLevelChunks { get; protected set; } = new List<GameObject>();
 
     [Serializable]
@@ -76,8 +79,13 @@ public class GameManager : MonoBehaviour
     public int GameState { get; private set; } // 0 = Menu, 1 = Playing, 2 = Circle Minigame
     public float CurrentDodgeChance = 0;
     public int EnemiesKilled { get; private set; }
+    private int HeadstartCounter = -1;
+    private bool PlayedALevel = false;
 
     public DialogueManager.DialogueInfo IntroDialogue;
+    public DialogueManager.DialogueInfo UpgradeTutorialDialogue;
+    public List<DialogueManager.DialogueInfo> StartSessionDialogue;
+    public List<DialogueManager.DialogueInfo> PostPlayerDeathDialogue;
 
     public int GetUpgradeCount(string ID)
     {
@@ -116,14 +124,29 @@ public class GameManager : MonoBehaviour
         Tilemap chunkTilemap = chunk.GetComponent<Tilemap>();
         if (chunkTilemap == null) return;
 
-        for (int i = 0; i < DefaultLevelTheme.tiles.Length; i++)
+        for (int i = 0; i < AllLevelThemes[0].tiles.Length; i++)
         {
-            if (DefaultLevelTheme.tiles[i] == CurrentLevelTheme.tiles[i]) continue;
-            chunkTilemap.SwapTile(DefaultLevelTheme.tiles[i], CurrentLevelTheme.tiles[i]);
+            if (AllLevelThemes[0].tiles[i] == CurrentLevelTheme.tiles[i]) continue;
+            chunkTilemap.SwapTile(AllLevelThemes[0].tiles[i], CurrentLevelTheme.tiles[i]);
         }
         TilemapRenderer tilemapRenderer = chunk.GetComponent<TilemapRenderer>();
         if (tilemapRenderer != null)
             tilemapRenderer.material = CurrentLevelTheme.TileMaterial;
+
+        int DifficultyImportance = 0;
+        foreach (var item in FindObjectsOfType<DynamicEnemySpawner>())
+        {
+            if (!item.gameObject.transform.IsChildOf(chunk.transform)) continue;
+            item.DifficultyImportance = DifficultyImportance;
+            DifficultyImportance++;
+        }
+
+        GameObject[] spikeTilemapGameObjects = GameObject.FindGameObjectsWithTag("Spikes");
+        foreach (var item in spikeTilemapGameObjects)
+        {
+            if (item.GetComponent<Tilemap>() != null)
+                item.SetActive(GetUpgradeCount("FirePanels") > 0 && UnityEngine.Random.value <= GlobalDifficulty / 1.5f);
+        }
     }
 
     void GenerateNewLevel(LevelTheme theme)
@@ -133,6 +156,8 @@ public class GameManager : MonoBehaviour
             Destroy(item);
         }
         SpawnedLevelChunks.Clear();
+
+        UnityEngine.Random.InitState((int)DateTime.Now.Ticks + VenomCount + EnemiesKilled);
 
         CurrentLevelTheme = theme;
         List<GameObject> shuffledChunkList = new List<GameObject>();
@@ -161,18 +186,30 @@ public class GameManager : MonoBehaviour
             SpawnedLevelChunks.Add(chunk);
         }
 
-        LevelExit[] levelExits = GameObject.FindObjectsOfType<LevelExit>();
+        LevelExit[] levelExits = FindObjectsOfType<LevelExit>();
         foreach (var item in levelExits)
         {
-            if (item.ExitIndex < 0) continue;
-            item.UpdateLevelExit(theme.ExitLevels[item.ExitIndex]);
+            if (item == null || item.ExitIndex < 0 || item.ExitIndex >= theme.ExitLevels.Count ) continue;
+            LevelTheme chosenLevelTheme = theme.ExitLevels[item.ExitIndex];
+            if (chosenLevelTheme == AllLevelThemes[AllLevelThemes.Count - 1] && GetUpgradeCount("CoreKey") <= 0)
+                chosenLevelTheme = AllLevelThemes[UnityEngine.Random.Range(0, AllLevelThemes.Count - 1)];
+            item.UpdateLevelExit(chosenLevelTheme);
+        }
+
+        FallingPlatform[] fallingPlatforms = FindObjectsOfType<FallingPlatform>();
+        foreach (var item in fallingPlatforms)
+        {
+            item.GetComponent<SpriteRenderer>().sprite = theme.FallingPlatformSprite;
         }
 
         if (GetUpgradeCount("CircleMinigame") > 0)
         {
             GameObject[] minigameSpawnPoints = GameObject.FindGameObjectsWithTag("MinigameSpawnPoint");
             if (minigameSpawnPoints.Length > 0)
-                Instantiate(CircleMinigameCollectibleTemplate, minigameSpawnPoints[UnityEngine.Random.Range(0, minigameSpawnPoints.Length)].transform.position, Quaternion.identity);
+            {
+                GameObject minigameCollectible = Instantiate(CircleMinigameCollectibleTemplate, minigameSpawnPoints[UnityEngine.Random.Range(0, minigameSpawnPoints.Length)].transform.position, Quaternion.identity);
+                SpawnedLevelChunks.Add(minigameCollectible);
+            }
         }
 
         LevelBackground.material = theme.BackgroundMaterial;
@@ -180,19 +217,49 @@ public class GameManager : MonoBehaviour
 
     public VisualEffect SpawnParticleSystem(VisualEffectAsset template, Vector3 position, Transform parent = null)
     {
-        GameObject newObject = Instantiate(VisualEffectTemplate, position, Quaternion.identity, parent);
-        VisualEffect visualEffect = newObject.GetComponent<VisualEffect>();
+        GameObject newObject = new(template.name + "_Particles");
+        newObject.transform.position = position;
+        newObject.transform.parent = parent;
+        VisualEffect visualEffect = newObject.AddComponent<VisualEffect>();
 
         if (visualEffect != null)
         {
-            visualEffect.gameObject.name = template.name;
             visualEffect.visualEffectAsset = template;
             visualEffect.Play();
             return visualEffect;
         }
 
-        Debug.LogWarning("SpawnParticleSystem: GameObject for holding Visual Effects doesn't contain a VisualEffect component!");
+        Debug.LogWarning("SpawnParticleSystem: Visual Effect component failed to be added!");
         return null;
+    }
+
+    // Copied and modified from AudioSource.PlayClipAtPoint()
+    public static void PlaySoundAtPoint(Sound sound, Vector3 position, float volumeMultiplier=1f, bool Manual=false)
+    {
+        GameObject gameObject = new GameObject(sound.name + "OneShot");
+        gameObject.transform.position = position;
+
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor || sound.oggClip == null)
+            audioSource.clip = sound.clip;
+        else
+            audioSource.clip = sound.oggClip;
+        audioSource.volume = sound.volume;
+        audioSource.pitch = sound.pitch;
+        //audioSource.loop = sound.loop;
+        audioSource.spatialBlend = sound.spatialAmount;
+        audioSource.outputAudioMixerGroup = sound.audioMixerGroup;
+#if UNITY_WEBGL
+        float mixerVolume;
+        sound.audioMixerGroup.audioMixer.GetFloat(sound.audioMixerGroup.name + "Volume", out mixerVolume);
+        audioSource.volume *= mixerVolume;
+#endif
+
+        if (!Manual)
+        {
+            audioSource.Play();
+            Destroy(gameObject, sound.clip.length * ((Time.timeScale < 0.01f) ? 0.01f : Time.timeScale));
+        }
     }
 
     public void SetGameState(int NewState)
@@ -202,20 +269,39 @@ public class GameManager : MonoBehaviour
         Time.timeScale = NewState == 2 ? 0.005f : NewState;
     }
 
-    private void ResetGameObjects()
+    private void ResetGameObjects(bool Respawn = false)
     {
-        if (Snake == null)
-            Snake = GameObject.FindGameObjectWithTag("Snake").GetComponent<ScrollingSnake>();
-        
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController_Logic>();
-        
+        if (Respawn)
+        {
+            Destroy(Snake.gameObject);
+            Destroy(Player.gameObject);
+
+            GameObject newSnake = Instantiate(SnakeTemplate, SnakeInitialPosition, Quaternion.identity);
+            Snake = newSnake.GetComponent<ScrollingSnake>();
+            GameObject newPlayer = Instantiate(PlayerTemplate, PlayerInitialPosition, Quaternion.identity);
+            Player = newPlayer.GetComponent<PlayerController_Logic>();
+        }
+        else
+        {
+            if (Snake == null)
+                Snake = GameObject.FindGameObjectWithTag("Snake").GetComponent<ScrollingSnake>();
+
+            Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController_Logic>();
+        }
+
         //UI_Shop.UpdateShop();
+
+        foreach (var item in GameObject.FindGameObjectsWithTag("Snake"))
+        {
+            if (item.GetComponent<ScrollingSnake>() != null && item.GetComponent<ScrollingSnake>() != Snake)
+                Destroy(item);
+        }
 
         if (SnakeInitialPosition != new Vector3(-999, -999, -999))
         {
             Snake.transform.position = SnakeInitialPosition;
             Snake.transform.localScale = new Vector3(1, 1, 1);
-            Snake.EstimatedTimeToRise = (Snake._spriteRenderer.size.x - 24) / Snake.Speed;
+            Snake.EstimatedTimeToRise = (Snake.GetComponent<SpriteRenderer>().size.x - 24) / Snake.Speed;
         }
         if (PlayerInitialPosition != new Vector3(-999, -999, -999))
         {
@@ -233,48 +319,53 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CircleMinigameCoroutine(Vector3 position)
     {
+
         for (float i = 1; i >= 0; i-=0.01f) 
         {
             Time.timeScale = i;
-            yield return new WaitForSecondsRealtime(0.0075f);
+            yield return new WaitForSecondsRealtime(0.005f);
         }
-        SetGameState(2);
+        SetGameState(0);
 
         CircleMinigame minigame = Instantiate(CircleMinigameTemplate, position, Quaternion.identity).GetComponent<CircleMinigame>();
-        if (minigame != null) 
+        if (minigame != null)
         {
-            yield return new WaitForSecondsRealtime(0.5f);
             Vector3 OldTargetPosition = TargetCameraPosition;
             TargetCameraPosition = new(position.x, position.y, TargetCameraPosition.z);
-            TargetCameraScale = new(TargetCameraScale.x, 0.75f);
+            TargetCameraScale = new(0.75f, 0.75f);
+            Camera.main.transform.position = TargetCameraPosition;
+            Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
+            yield return new WaitForSecondsRealtime(0.5f);
+
             UI.Timer.animator.SetBool("Active", true);
 
             yield return new WaitForSecondsRealtime(0.5f);
             SetGameState(0);
 
-            float timeLimit = (GetUpgradeCount("BetterBounceRings") > 0 ? 10 : 7);
+            float timeLimit = (GetUpgradeCount("BetterBounceRings") > 0 ? 8 : 5);
             for (float i = timeLimit; i >= 0; i -= 0.01f)
             {
-                UI.Timer.value = i / timeLimit;
+                UI.Timer.value = (i / timeLimit) * 96;
                 yield return new WaitForSecondsRealtime(0.01f);
             }
 
-            SetGameState(2);
             minigame.OnFinishGame();
-            Player.InitiateFreeRise(Mathf.Min(4 * minigame.CurrentLevel, CurrentLevelTheme.LevelLength * 24 - Player.transform.position.y - 4), 1);
             TargetCameraPosition = OldTargetPosition;
             TargetCameraScale = new(TargetCameraScale.x, 1f);
+            Camera.main.transform.position = TargetCameraPosition;
+            Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
             UI.Timer.animator.SetBool("Active", false);
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(1.5f);
             SetGameState(1);
+            Player.InitiateFreeRise(Mathf.Min(3 * minigame.CurrentLevel, CurrentLevelTheme.LevelLength * 24 - Player.transform.position.y - 4), 1);
             while (Player.InFreeRise)
             {
                 TargetCameraPosition = new(TargetCameraPosition.x, Player.transform.position.y, TargetCameraPosition.z);
                 Camera.main.transform.position = TargetCameraPosition;
                 yield return null;
             }
-            TargetCameraPosition = new(TargetCameraPosition.x, Mathf.Floor(TargetCameraPosition.y / 24) * 24, TargetCameraPosition.z);
-            Snake.transform.position = TargetCameraPosition + new Vector3(-12, -4.25f, 10.5f);
+            TargetCameraPosition = new(TargetCameraPosition.x, Mathf.Floor(TargetCameraPosition.y / 4) * 4, TargetCameraPosition.z);
+            Snake.transform.position = TargetCameraPosition + new Vector3(-12 * Snake.transform.localScale.x, -4.25f, 10.5f);
         }
     }
 
@@ -303,50 +394,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame(bool FromPlayerDeath=false)
-    {
-        GenerateNewLevel(DefaultLevelTheme);
-        SetGameState(0);
-        UI_MainMenu.SetActive(false);
-        Camera.main.GetComponent<Animator>().enabled = true;
-
-        Player.UpdateUpgrades();
-
-        if (SaveManager.IsTutorialComplete("Intro"))
-        {
-            Camera.main.GetComponent<Animator>().Play("Camera_UpgradeZoomOut");
-        }
-        else
-        {
-            Camera.main.GetComponent<Animator>().Play("Camera_IntroZoomOut");
-        }
-    }
-
-    public void OnFinishUpgradeShop()
-    {
-        UI_Shop.gameObject.SetActive(false);
-        SetGameState(1);
-        TargetCameraScale = new(TargetCameraScale.x, 1);
-        TargetCameraPosition = new(0, 0, -10);
-
-        foreach (var item in UI.PanelAnimators)
-        {
-            item.SetBool("Active", true);
-        }
-
-        Player.UpdateUpgrades();
-        Snake.UpdatePanelTier();
-
-        if (GetUpgradeCount("LevelHeadstart") > 0)
-        {
-            GameObject portal = Instantiate(QuickstartPortalTemplate, QuickstartPortalLocation, Quaternion.identity);
-            portal.GetComponent<LevelExit>().UpdateLevelExit(DefaultLevelTheme.ExitLevels[UnityEngine.Random.Range(2, DefaultLevelTheme.ExitLevels.Count)]);
-            SpawnedLevelChunks.Add(portal);
-        }
-
-        SaveManager.SaveSaveFile();
-    }
-
     // Whoops, I died!
     public void OnControllerDeath(Controller controller, GameObject instigator)
     {
@@ -365,6 +412,7 @@ public class GameManager : MonoBehaviour
             {
                 item.SetBool("Active", false);
             }
+            UI.LifestealEnemiesRemaining.transform.parent.gameObject.SetActive(false);
 
             SaveManager.SaveSaveFile();
 
@@ -375,89 +423,213 @@ public class GameManager : MonoBehaviour
             EnemiesKilled++;
             int venomUpgrade = GetUpgradeCount("EnemySnakeVenom");
             if (venomUpgrade > 0 && EnemiesKilled % (4 - venomUpgrade) == 0)
-                VenomCount ++;
+                VenomCount += GetUpgradeCount("DoubleVenom") + 1;
+
+            int lifestealUpgrade = GetUpgradeCount("Lifesteal");
+            if (lifestealUpgrade > 0)
+            {
+                if (EnemiesKilled % (22 - lifestealUpgrade * 2) == 0)
+                {
+                    int extraHealth = (UnityEngine.Random.value <= 0.05f * (lifestealUpgrade - 1)) ? 1 : 0;
+                    Player.TakeDamage(gameObject, -1 - extraHealth);
+                }
+                UI.LifestealEnemiesRemaining.text = ((22 - lifestealUpgrade * 2) - EnemiesKilled % (22 - lifestealUpgrade * 2)).ToString();
+            }
         }
     }
 
     public IEnumerator PostPlayerDeath()
     {
         yield return new WaitForSecondsRealtime(2);
-        ScreenTransition.speed = 0.6667f;
-        ScreenTransition.SetBool("FadeOut", true);
+        UI.TriggerCircleFade(false, 1.5f, Color.black, Camera.main.WorldToViewportPoint(Player.transform.position));
         yield return new WaitForSecondsRealtime(2);
-        ScreenTransition.speed = 1f;
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainGame");
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-        ResetGameObjects();
+        
         StartGame(true);
-        ScreenTransition.SetBool("FadeOut", false);
+        UI.TriggerCircleFade(true, 0.5f, Color.black, new(0.5f, 0.5f));
     }
 
-    public void OnEnterLevelExit(LevelTheme level)
+    public void StartGame(bool FromPlayerDeath=false)
+    {
+        ResetGameObjects(FromPlayerDeath);
+        GlobalDifficulty = 0;
+        GenerateNewLevel(AllLevelThemes[0]);
+        SetGameState(0);
+        UI_MainMenu.gameObject.SetActive(false);
+        Camera.main.GetComponent<Animator>().enabled = true;
+
+        Player.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        Player.NoAnimation = true;
+        Player.SetExpression(PlayerController_Logic.PlayerExpression.Sleeping, 9999);
+
+        UI.LifestealEnemiesRemaining.transform.parent.gameObject.SetActive(false);
+
+        if (SaveManager.IsTutorialComplete("Intro"))
+        {
+            Camera.main.GetComponent<Animator>().Play("Camera_UpgradeZoomOut");
+            if (FromPlayerDeath)
+                Camera.main.GetComponent<Animator>().SetBool("ForceUpgradeZoomOut", true);
+        }
+        else
+        {
+            Camera.main.GetComponent<Animator>().Play("Camera_IntroZoomOut");
+        }
+    }
+
+    public void OnFinishUpgradeShop()
+    {
+        UI_Shop.gameObject.SetActive(false);
+        SetGameState(1);
+        TargetCameraScale = new(TargetCameraScale.x, 1);
+        TargetCameraPosition = new(0, 0, -10);
+        MusicManager.CrossFadeSound(MusicManager.ActiveSounds[0], AllLevelThemes[0].Music, 0.5f);
+
+        foreach (var item in UI.PanelAnimators)
+        {
+            item.SetBool("Active", true);
+        }
+
+        Player.UpdateUpgrades();
+        Snake.UpdatePanelTier();
+
+        Player.animator.updateMode = AnimatorUpdateMode.Normal;
+        Player.NoAnimation = false;
+
+        UI.LifestealEnemiesRemaining.transform.parent.gameObject.SetActive(GetUpgradeCount("Lifesteal") > 0);
+
+        if (HeadstartCounter < 0)
+            HeadstartCounter = UnityEngine.Random.Range(0, 5);
+        if (PlayedALevel)
+            HeadstartCounter += 1 + EnemiesKilled % 2;
+
+        if (GetUpgradeCount("LevelHeadstart") > 0)
+        {
+            GameObject portal = Instantiate(HeadstartPortalTemplate[GetUpgradeCount("BetterLevel_Headstart")], HeadstartPortalLocation, Quaternion.identity);
+
+            if (GetUpgradeCount("BetterLevel_Headstart") > 0)
+            {
+                portal.GetComponent<LevelExit>().UpdateLevelExit(AllLevelThemes[1 + (HeadstartCounter % (AllLevelThemes.Count - 2))]);
+                portal.GetComponent<LevelExit>().AdditionalDifficulty = 0.2f;
+            }
+            else
+            {
+                portal.GetComponent<LevelExit>().UpdateLevelExit(AllLevelThemes[0].ExitLevels[HeadstartCounter % AllLevelThemes[0].ExitLevels.Count]);
+                portal.GetComponent<LevelExit>().AdditionalDifficulty = 0.1f;
+            }
+
+            SpawnedLevelChunks.Add(portal);
+        }
+
+        PlayedALevel = false;
+
+        SaveManager.SaveSaveFile();
+    }
+
+    public void OnEnterLevelExit(LevelExit level)
     {
         SetGameState(0);
-        ScreenTransition.SetBool("FadeOut", true);
+        UI.TriggerCircleFade(false, 1f, Color.white, Camera.main.WorldToViewportPoint(Player.transform.position));
+        MusicManager.CrossFadeSound(MusicManager.ActiveSounds[0], level.LevelTheme.Music, 1);
         SaveManager.SaveSaveFile();
         StartCoroutine(PostLevelExit(level));
     }
 
-    public IEnumerator PostLevelExit(LevelTheme level)
+    public IEnumerator PostLevelExit(LevelExit level)
     {
-        yield return new WaitForSecondsRealtime(1f);
-        GlobalDifficulty += 0.1f + (Player.Health >= Player.MaxHealth ? 0.033f : 0);
-        GenerateNewLevel(level);
+        yield return new WaitForSecondsRealtime(1.01f);
+        // +3.3% difficulty if the player took no damage, +2.5% difficulty if the core is available
+        GlobalDifficulty += 0.125f + (Player.Health >= Player.MaxHealth ? 0.033f : 0) + (GetUpgradeCount("CoreKey") * 0.025f) + level.AdditionalDifficulty;
+        PlayedALevel = true;
+        GenerateNewLevel(level.LevelTheme);
         ResetGameObjects();
         yield return new WaitForSecondsRealtime(0.5f);
-        ScreenTransition.SetBool("FadeOut", false);
-        yield return new WaitForSecondsRealtime(1f);
+        UI.TriggerCircleFade(true, 1f, Color.white, Camera.main.WorldToViewportPoint(Player.transform.position));
+        yield return new WaitForSecondsRealtime(0.5f);
         SetGameState(1);
     }
 
     public void OnRecieveAnimationEvent(string Message)
     {
-        if (Message == "Camera_PostGameIntro")
+        switch(Message)
         {
-            Camera.main.GetComponent<Animator>().enabled = false;
-            SetGameState(1);
-            SaveManager.AddTutorial("Intro");
+            case "Camera_PostGameIntro":
+                Camera.main.GetComponent<Animator>().enabled = false;
+                SetGameState(1);
 
-            foreach (var item in UI.PanelAnimators)
-            {
-                item.SetBool("Active", true);
-            }
-        }
-        else if (Message == "Camera_PostUpgradeZoomOut")
-        {
-            UI_Shop.gameObject.SetActive(true);
-            UI_Shop.UpdateShop();
+                Player.animator.updateMode = AnimatorUpdateMode.Normal;
+                Player.NoAnimation = false;
 
-            Camera.main.GetComponent<Animator>().enabled = false;
+                SaveManager.AddTutorial("Intro");
 
-            TargetCameraPosition = new(2, 0.25f, Camera.main.gameObject.transform.position.z);
-            Camera.main.transform.position = TargetCameraPosition;
-            TargetCameraScale = new(0.333f, 0.333f);
-            Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
+                foreach (var item in UI.PanelAnimators)
+                {
+                    item.SetBool("Active", true);
+                }
+                break;
 
-            UI.PanelAnimators[1].SetBool("Active", true);
-        }
-        else if (Message == "Camera_ActivateDialogue")
-        {
-            if (SaveManager.IsTutorialComplete("Intro"))
-            {
+            case "Camera_PostUpgradeZoomOut":
+                UI_Shop.gameObject.SetActive(true);
+                UI_Shop.UpdateShop();
 
-            }
-            else
-            {
-                DialogueManager.Instance.RunDialogue(IntroDialogue);
-            }
+                Camera.main.GetComponent<Animator>().SetBool("ForceUpgradeZoomOut", false);
+                Camera.main.GetComponent<Animator>().enabled = false;
+
+                TargetCameraPosition = new(2, 0.25f, Camera.main.gameObject.transform.position.z);
+                Camera.main.transform.position = TargetCameraPosition;
+                TargetCameraScale = new(0.333f, 0.333f);
+                Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
+
+                UI.PanelAnimators[1].SetBool("Active", true);
+                break;
+
+            case "Camera_ActivateDialogue":
+                if (SaveManager.IsTutorialComplete("Intro"))
+                {
+                    if (!SaveManager.IsTutorialComplete("Upgrades")) // Upgrade shop tutorial
+                    {
+                        DialogueManager.Instance.RunDialogue(UpgradeTutorialDialogue);
+                        SaveManager.AddTutorial("Upgrades");
+                    }
+                    else if (HeadstartCounter < 0) // First time playing in this session
+                    {
+                        DialogueManager.Instance.RunDialogue(StartSessionDialogue[UnityEngine.Random.Range(0, StartSessionDialogue.Count)]);
+                    }
+                    else // After player death
+                    {
+                        DialogueManager.Instance.RunDialogue(PostPlayerDeathDialogue[UnityEngine.Random.Range(0, PostPlayerDeathDialogue.Count)]);
+                    }
+                    MusicManager.PlaySound(UI_Shop.ShopMusic);
+                }
+                else
+                {
+                    DialogueManager.Instance.RunDialogue(IntroDialogue);
+                    MusicManager.PlaySound(AllLevelThemes[0].Music);
+                }
+                
+                break;
+
+            case "PlayerExpression_Normal":
+                Player.SetExpression(PlayerController_Logic.PlayerExpression.Normal, 1);
+                break;
+
+            case "PlayerExpression_Surprised":
+                Player.SetExpression(PlayerController_Logic.PlayerExpression.Surprised, 9999);
+                break;
+
+            default:
+                break;
+            
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        SaveManager.saveData.TimeSpent += Mathf.FloorToInt(Time.unscaledTime);
+        VenomCount++; // Free venom for quitting the game :)
+        SaveManager.SaveSaveFile();
+    }
+
     // Awake is called when the script instance is being loaded
-    void Start()
+    void Awake()
     {
         if (Instance != null)
         {
@@ -466,6 +638,7 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        MusicManager = gameObject.AddComponent<LocalAudioManager>();
 
         ResetGameObjects();
 
@@ -494,10 +667,10 @@ public class GameManager : MonoBehaviour
         Vector3 CurrentVelocity = new Vector3(0, 0, 0);
         if (Camera.main != null)
         {
-            Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, TargetCameraPosition, ref CurrentVelocity, 0.15f, Mathf.Infinity, Time.fixedUnscaledDeltaTime);
+            Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, TargetCameraPosition, ref CurrentVelocity, 0.15f);
             LevelBackground.transform.position = Camera.main.transform.position + new Vector3(0, 0, 20);
 
-            TargetCameraScale = new(Mathf.SmoothDamp(TargetCameraScale.x, TargetCameraScale.y, ref CurrentVelocityF, 0.125f, Mathf.Infinity, Time.fixedUnscaledDeltaTime), TargetCameraScale.y);
+            TargetCameraScale = new(Mathf.SmoothDamp(TargetCameraScale.x, TargetCameraScale.y, ref CurrentVelocityF, 0.125f), TargetCameraScale.y);
             Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
         }
     }

@@ -9,6 +9,7 @@ public class ShopInterface : MonoBehaviour
 {
     public GameObject ShopItemTemplate;
     public GameObject ShopItemList;
+    public Sound ShopMusic;
     
     List<UpgradeItem> upgradeItems = new List<UpgradeItem>();
     List<ShopItemController> ShopItems = new List<ShopItemController>();

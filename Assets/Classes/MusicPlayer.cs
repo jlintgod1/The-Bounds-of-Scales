@@ -5,9 +5,8 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour
 {
     LocalAudioManager audioManager;
-    public string currentMusic;
-    public string nextMusic;
     bool fading = false;
+    /*
     public void FadeOut(float time)
     {
         audioManager.fadeOut(currentMusic, time);
@@ -33,4 +32,5 @@ public class MusicPlayer : MonoBehaviour
             fading = false;
         }
     }
+    */
 }

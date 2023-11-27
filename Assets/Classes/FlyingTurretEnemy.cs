@@ -6,6 +6,7 @@ using UnityEngine.Rendering.UI;
 public class FlyingTurretEnemy : Controller
 {
     Vector3 initialPosition;
+    Vector3 initialJetPackPosition;
     float shootTimer;
     float currentAngle;
 
@@ -19,18 +20,25 @@ public class FlyingTurretEnemy : Controller
     {
         base.Start();
         initialPosition = transform.position;
+        initialJetPackPosition = jetPack.transform.position;
+        currentAngle = 45 * Random.Range(0, 8);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Dead) return;
+        if (Mathf.Abs(transform.position.y - Camera.main.transform.position.y) > 15) return;
         shootTimer += Time.deltaTime;
-        transform.eulerAngles = new(0, 0, Mathf.LerpAngle(currentAngle, currentAngle + 45, Mathf.Clamp01(shootTimer * 2)));
-        transform.position = initialPosition + new Vector3(0, 0.125f, 0) * Mathf.Cos(Mathf.PI / 3 + Time.time);
+        if (speed <= 0)
+        {
+            transform.eulerAngles = new(0, 0, Mathf.LerpAngle(currentAngle, currentAngle + 45, Mathf.Clamp01(shootTimer * 2)));
+            transform.position = initialPosition + new Vector3(0, 0.125f, 0) * Mathf.Cos(Mathf.PI / 3 + Time.time);
+            jetPack.transform.eulerAngles = new Vector3(0, 0, 0);
+            jetPack.transform.position = initialJetPackPosition;
+        }
         face.transform.eulerAngles = new Vector3(0, 0, 0);
         face.transform.position = transform.position + new Vector3(0, 0.0625f * Mathf.Sin(Mathf.PI / 1 + Time.time), -0.01f);
-        jetPack.transform.eulerAngles = new Vector3(0, 0, 0);
-        jetPack.transform.position = transform.position + new Vector3(0, -0.125f, 0.01f);
 
         if (shootTimer > shootInterval) 
         {
@@ -38,6 +46,22 @@ public class FlyingTurretEnemy : Controller
             currentAngle += 45;
             ShootBullets();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        if (speed > 0)
+        {
+            RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.right * direction, 1.5f, LayerMask.GetMask("Ground"));
+            rigidbody2D.MovePosition(rigidbody2D.position + Vector2.right * speed * direction * Time.fixedDeltaTime);
+            if (raycastHit2D.collider != null)
+            {
+                ManipulateGraphics(direction * -1);
+            }
+        }
+        
     }
 
     void SpawnBullet(Vector3 direction, float angle)
@@ -50,12 +74,29 @@ public class FlyingTurretEnemy : Controller
     {
         if (Mathf.Abs(GameManager.Instance.Player.gameObject.transform.position.y - transform.position.y) > 24) return;
         if (bulletCount <= 0) return;
-        // Technique brought to you by a random Garry's Mod tutorial in that Garry's Mod wiki that I randomly had bookmarked
+        // Technique brought to you by a random Garry's Mod tutorial in that Garry's Mod wiki I randomly had bookmarked
         for (int i = 0; i < bulletCount; i++)
         {
             float bulletAngle = (i * (360f / bulletCount) + transform.eulerAngles.z);
             SpawnBullet(new Vector2(Mathf.Sin(Mathf.Deg2Rad * bulletAngle), Mathf.Cos(Mathf.Deg2Rad * bulletAngle)), bulletAngle);
         }
+    }
+
+
+    protected override void ManipulateGraphics(float value)
+    {
+        if (value != 0)
+        {
+            spriteRenderer.flipX = value < 0;
+            jetPack.flipX = value < 0;
+            face.flipX = value < 0;
+
+            jetPack.transform.position = transform.position + new Vector3(
+                (initialJetPackPosition.x - initialPosition.x) * value,
+                (initialJetPackPosition.y - initialPosition.y),
+                (initialJetPackPosition.z - initialPosition.z));
+        }
+        base.ManipulateGraphics(value);
     }
 
     public override void TakeDamage(GameObject Instigator, int Damage)

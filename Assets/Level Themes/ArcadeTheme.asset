@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelName: Jake's Arcade and Game Inc.
   BackgroundMaterial: {fileID: 2100000, guid: 180a58b7ca4ec2b4ead5ceecabe03b55, type: 2}
-  Music: {fileID: 0}
+  Music: {fileID: 11400000, guid: ec35b406167e0624199035f711428ea1, type: 2}
   GameplayChunks:
   - {fileID: 4633067230689913680, guid: 4bf97d3499a01a44788cafdd922fb655, type: 3}
   - {fileID: 5251537560580345818, guid: 0ffecd4bb1fefec4e95ac30f3fab410e, type: 3}
   - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
+  - {fileID: 4212131574133429813, guid: 8ca9e99cf385d2845a61685816eeee6e, type: 3}
   - {fileID: 6839593684909816282, guid: 373312163365f3240aa2bd63a175c24d, type: 3}
   - {fileID: 7032922358768205224, guid: 9a240eac2eaac224a8db71f8d824364f, type: 3}
   - {fileID: 4071384644734719400, guid: afa4bf7d4364db94aaa8445aa389173a, type: 3}
@@ -34,8 +35,8 @@ MonoBehaviour:
   LevelLength: 6
   ExitLevels:
   - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
-  - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
-  - {fileID: 11400000, guid: 164d337ccd16da4408042240cd9796ca, type: 2}
+  - {fileID: 11400000, guid: e34192fee3c5d714bb19a1b5cab566cf, type: 2}
+  - {fileID: 11400000, guid: afbca3c191c97e54aae4a60d22734f12, type: 2}
   tiles:
   - {fileID: 11400000, guid: 811b97f41d54fae42b82a601f72dcd22, type: 2}
   - {fileID: 11400000, guid: 71dbadb328a69084fadb8bf7f1646e34, type: 2}
@@ -48,3 +49,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9d1b31005a1472748872b95fad34c494, type: 2}
   - {fileID: 11400000, guid: b67328b3c79bf944b95275a35ed53d8c, type: 2}
   TileMaterial: {fileID: -876546973899608171, guid: cfcc42228dd10d44987fc7bea83c350d, type: 3}
+  FallingPlatformSprite: {fileID: 21300000, guid: 0a15dfc9ef785a940bbb58b25073d605, type: 3}

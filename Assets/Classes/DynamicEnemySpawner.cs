@@ -12,17 +12,22 @@ public class DynamicEnemySpawner : MonoBehaviour
     public bool EligibleForDuplicates;
     [Tooltip("")]
     public int ThemeDependency = -1;
+    
+    // The lower this is, the more likely it is for it to be a difficult enemy, allowing increases in difficulty to be felt
+    // more gradually rather than all or nothing.
+    [HideInInspector]
+    public int DifficultyImportance;
     // Start is called before the first frame update
     void Start()
     {
-        int DuplicateChance = EligibleForDuplicates ? Mathf.FloorToInt(Random.Range(0f, Mathf.Max(GameManager.Instance.GlobalDifficulty - 1f, 0.01f))) : 1;
+        int DuplicateChance = EligibleForDuplicates ? Mathf.FloorToInt(Random.Range(0f, Mathf.Max(GameManager.Instance.GlobalDifficulty - 1f, 0.001f))) : 1;
         for (int i = 0; i < DuplicateChance; i++)
         {
-            float DifficultyChance = Random.value;
+            float DifficultyChance = DifficultyImportance * 0.15f + 0.33f;
             GameObject newEnemy;
             if (ThemeDependency > -1)
                 newEnemy = GameManager.Instance.CurrentLevelTheme.ThemeEnemies[ThemeDependency];
-            else if (DifficultyChance <= Random.Range(0, 0.05f) + GameManager.Instance.GlobalDifficulty)
+            else if (DifficultyChance <= Random.Range(-0.075f, 0.1f) + GameManager.Instance.GlobalDifficulty)
                 newEnemy = HardEnemies[Random.Range(0, HardEnemies.Count)];
             else
                 newEnemy = EasyEnemies[Random.Range(0, EasyEnemies.Count)];

@@ -7,220 +7,117 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.UI;
-[System.Serializable]
-public class Sound 
+using static Unity.VisualScripting.Member;
+using Unity.VisualScripting;
+
+public class ActiveSound : UnityEngine.Object
 {
-    public AudioClip clip;
-    public AudioClip oggClip;
-    public string name;
-    [Range(0f, 1f)]
-    public float volume;
-    [Range(-3f, 3f)]
-    public float pitch;
-    public bool loop;
-    [HideInInspector]
-    public bool fading = false;
-    [Range(0f, 1f)]
-    public float spatialAmount = 0;
-    public bool autoPlay = false;
-    public bool hasLowPass;
-    public AudioLowPassFilter lowPassFilter;
-    public float lowPassCutoff = 500;
-    [HideInInspector]
-    public AudioSource source;
+    public Sound sound;
+    public AudioSource audioSource;
+    public bool fading;
+
+    public ActiveSound(Sound _sound, AudioSource _audioSource)
+    {
+        sound = _sound;
+        audioSource = _audioSource;
+        fading = false;
+
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor || sound.oggClip == null)
+            audioSource.clip = sound.clip;
+        else
+            audioSource.clip = sound.oggClip;
+
+        audioSource.volume = sound.volume;
+        audioSource.pitch = sound.pitch;
+        audioSource.loop = sound.loop;
+        audioSource.spatialBlend = sound.spatialAmount;
+        audioSource.outputAudioMixerGroup = sound.audioMixerGroup;
+    }
 }
 
 public class LocalAudioManager : MonoBehaviour
 {
-    public Sound[] sounds;
-    public Toggle[] musicToggles;
+    public List<ActiveSound> ActiveSounds = new List<ActiveSound>();
 
-    // Start is called before the first frame update
-    void Awake()
+    public ActiveSound PlaySound(Sound Sound, float Delay = 0)
     {
-        //DontDestroyOnLoad(gameObject);
+        ActiveSound newSound = new ActiveSound(Sound, gameObject.AddComponent<AudioSource>());
 
-        foreach (Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-
-            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor || s.oggClip == null) {
-                s.source.clip = s.clip;
-            }else {
-                s.source.clip = s.oggClip;
-            }
-            
-            
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-            s.source.spatialBlend = s.spatialAmount;
-
-            if (s.autoPlay == true) {
-                Play(s.name);
-            }
-            if (s.hasLowPass == true) {
-                s.lowPassFilter = gameObject.AddComponent<AudioLowPassFilter>();
-                s.lowPassFilter.cutoffFrequency = s.lowPassCutoff;
-                s.lowPassFilter.enabled = false;
-            }
+        newSound.audioSource.PlayDelayed(Delay);
+        ActiveSounds.Add(newSound);
+        return newSound;
+        /*
+        if (s.hasLowPass == true) {
+            s.lowPassFilter = gameObject.AddComponent<AudioLowPassFilter>();
+            s.lowPassFilter.cutoffFrequency = s.lowPassCutoff;
+            s.lowPassFilter.enabled = false;
         }
+        */
     }
 
-    void Start()
+    public bool StopSound(ActiveSound activeSound)
     {
-        //Play("Music");
+        activeSound.audioSource.Stop();
+        Destroy(activeSound.audioSource);
+        ActiveSounds.Remove(activeSound);
+        Destroy(activeSound);
+        return true;
     }
 
-    public void crossFade(string from, string to, float time) {
-        StartCoroutine(crossFadeC(from, to, time));
+    public void PauseSound(ActiveSound activeSound, bool paused)
+    {
+        if (paused)
+            activeSound.audioSource.Pause();
+        else
+            activeSound.audioSource.UnPause();
     }
 
-    IEnumerator crossFadeC(string from, string to, float time) {
-        float step = Time.deltaTime / time;
-        Sound froms = Array.Find(sounds, sound => sound.name == from);
-        Sound tos = Array.Find(sounds, sound => sound.name == to);
-        
-        if (froms == null) {
-            Debug.LogWarning(from + " doesn't exist!");
+    
+    public void CrossFadeSound(ActiveSound From, Sound To, float time) 
+    {
+        StartCoroutine(CrossFadeSoundCoroutine(From, To, time));
+    }
+
+    IEnumerator CrossFadeSoundCoroutine(ActiveSound From, Sound To, float time) 
+    {
+        StartCoroutine(FadeSoundCoroutine(From, time, 0));
+        yield return new WaitForSecondsRealtime(time);
+
+        ActiveSound toSound = PlaySound(To);
+        toSound.audioSource.volume = 0;
+        yield return null;
+
+        StartCoroutine(FadeSoundCoroutine(toSound, time, 1));
+        yield return new WaitForSecondsRealtime(time);
+    }
+    
+
+    public void FadeSound(ActiveSound activeSound, float time, float EndAlpha) 
+    {
+        StartCoroutine(FadeSoundCoroutine(activeSound, time, EndAlpha));
+    }
+
+    IEnumerator FadeSoundCoroutine(ActiveSound activeSound, float time, float EndAlpha) 
+    {
+        float step = Time.unscaledDeltaTime / time;
+        if (activeSound.fading)
+        {
+            //Debug.LogWarning(name + " doesn't exist!");
             yield break;
         }
 
-        if (tos == null) {
-            Debug.LogWarning(to + " doesn't exist!");
-            yield break;
-        }
-
-        froms.fading = true;
-        tos.source.volume = 0;
-        while (froms.source.volume > 0.05)
+        activeSound.fading = true;
+        float oldVolume = activeSound.audioSource.volume;
+        for (float i = 0; i <= 1; i += step)
         {
-            float curVel = 0;
-            froms.source.volume = Mathf.SmoothDamp(froms.source.volume, 0, ref curVel, time);
-            yield return null;
-        }
-        froms.source.volume = 0;
-        froms.source.Stop();
-        tos.source.Play();
-        tos.fading = true;
-        froms.fading = false;
-
-        while (tos.source.volume < tos.volume-0.05f)
-        {
-            float curVel = 0;
-            tos.source.volume = Mathf.SmoothDamp(tos.source.volume, tos.volume, ref curVel, time);
-            yield return null;
-        }
-        tos.source.volume = tos.volume;
-    }
-
-    public void turnOff(string name) {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return;
-        }
-        s.source.pitch = 0;
-    }
-
-    public void turnOn(string name) {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return;
-        }
-        s.source.pitch = 1;
-    }
-
-    public void fadeOut(string name, float time) {
-        StartCoroutine(fadeOutC(name, time));
-    }
-
-
-    IEnumerator fadeOutC(string name, float time) {
-        float step = Time.deltaTime / time;
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        
-        if (s == null) {
-            Debug.LogWarning(name + " doesn't exist!");
-            yield break;
-        }
-
-        s.fading = true;
-        while (s.source.volume > 0.01f)
-        {
-            float curVel = 0;
-            s.source.volume = Mathf.SmoothDamp(s.source.volume, 0, ref curVel, time);
+            activeSound.audioSource.volume = Mathf.Lerp(oldVolume, activeSound.sound.volume * EndAlpha, Mathf.Pow(i, 1.5f));
             yield return null;
         }
         
-        s.source.volume = 0;
-        s.fading = false;
-        Stop(name);
+        activeSound.audioSource.volume = activeSound.sound.volume * EndAlpha;
+        activeSound.fading = false;
+        if (activeSound.audioSource.volume <= 0)
+            StopSound(activeSound);
     }
-
-    public void Stop(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return;
-        }
-        s.source.Stop();
-    }
-    public void PlayBecauseUnityIsWhack(string name)
-    {
-        Play(name);
-    }
-
-    public void Play(string name, float delay=0) 
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return;
-        }
-        StartCoroutine(PlayDelayed(s, delay));
-
-
-    }
-
-    IEnumerator PlayDelayed(Sound s, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (s.fading == false) {
-            s.source.volume = s.volume;
-        }
-        s.source.Play();
-    }
-
-    public void Pause(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return;
-        }
-        s.source.Pause();
-    }
-
-    public bool GetState(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return false;
-        }
-        return s.source.isPlaying;
-    }
-
-    public Sound GetSound(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            //Debug.LogWarning(name + " doesn't exist!");
-            return null;
-        }
-        return s;
-    }
+    
 }

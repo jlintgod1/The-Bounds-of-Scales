@@ -38,21 +38,27 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveData saveData = new SaveData();
 
+    // WebGL caches file changes, which is why we need this to push the changes immediately
 #if UNITY_WEBGL
-    // WebGL caches file changes, which is why we need this to push the changes immediately?
     [DllImport("__Internal")]
     public static extern void FlushFileWrites();
 #endif
     public static void SaveSaveFile()
     {
-        // File paths for the main save file along with its backups
+        // File paths for the main save file along with its backup
         string filePath = Application.persistentDataPath + "/SaveFile.data";
         string backupFilePath = Application.persistentDataPath + "/SaveFile.data.bak";
 
-        // Delete the first backup so that the save can be copied to its place
-        if (File.Exists(backupFilePath)) { File.Delete(backupFilePath); }
-        // Copy the save to the first backup
-        if (File.Exists(filePath)) { File.Copy(filePath, backupFilePath); }
+        // If we have a save file... (this is important for deleted save files)
+        if (File.Exists(filePath))
+        {
+            // Delete the first backup so that the save can be copied to its place
+            if (File.Exists(backupFilePath))
+                File.Delete(backupFilePath);
+            // Copy the save to the first backup
+            File.Copy(filePath, backupFilePath);
+        }
+
 
         // Open up a file stream and binary formatter
         BinaryFormatter formatter = new BinaryFormatter();
@@ -138,6 +144,13 @@ public class SaveManager : MonoBehaviour
             // DESTROY IT
             File.Delete(path);
         }
+
+        // Get rid of our data from memory too
+        saveData = new SaveData();
+
+        // Reset some objects
+        GameManager.Instance.Snake.UpdatePanelTier();
+        GameManager.Instance.UI.VenomCounter.text = "0";
     }
 
     public static bool IsTutorialComplete(string name)

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8c5a2e6a1be184f903f082baf5a322, type: 3}
+  m_Name: ForestTheme
+  m_EditorClassIdentifier: 
+  LevelName: Forest
+  BackgroundMaterial: {fileID: 2100000, guid: 226252ce42dbaed4fa00b90f5115dcc8, type: 2}
+  Music: {fileID: 11400000, guid: ec35b406167e0624199035f711428ea1, type: 2}
+  GameplayChunks:
+  - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
+  - {fileID: 1864966394089731827, guid: ab41b99408866a241bb49fe386cb9798, type: 3}
+  - {fileID: 4017420698737085194, guid: b13812b316f8e404cbeb84018a85e881, type: 3}
+  - {fileID: 6675923076596740364, guid: a7cb8a2f7c0a86e41a561e34cfdeb83e, type: 3}
+  - {fileID: 46032262811848075, guid: d61781e95e3d5694bacabfcc9d7ba688, type: 3}
+  - {fileID: 892789699979405084, guid: 001e5aeb05e811048985fec06557ec9f, type: 3}
+  - {fileID: 3992307195106990486, guid: 93a4244ea2f12d24db9cf0c4b491947f, type: 3}
+  - {fileID: 6418694561717938404, guid: c9c3bb02572269b42b1cfcfbf2f51704, type: 3}
+  - {fileID: 5966951821099569131, guid: cbcfc5b928ae0034ca44a4ad59e557fb, type: 3}
+  HardGameplayChunks:
+  - {fileID: 4262012270465107077, guid: ecc29918849c2bd469c7550351795c87, type: 3}
+  - {fileID: 6206882909190463257, guid: 55421c4991f57974982dcf514d13d344, type: 3}
+  - {fileID: 4553221430029246101, guid: 0bbd65692706fb044b1d0e3f1797538b, type: 3}
+  - {fileID: 2770727820634795650, guid: 483aea4a77d3b5b43836efd162d15ed6, type: 3}
+  ThemeEnemies:
+  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
+  ExitChunk: {fileID: 2734993825225769775, guid: 8d866c7440e22af4eaf32d93666a3659, type: 3}
+  LevelLength: 7
+  ExitLevels:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: c844b989722159b45819ff189b9479a7, type: 2}
+  - {fileID: 11400000, guid: 16bf59846c5e3b149beba6cca2240ba6, type: 2}
+  tiles:
+  - {fileID: 11400000, guid: 2902014e38aa7b24492c69713dd590ea, type: 2}
+  - {fileID: 11400000, guid: 588f331650b761242a3f7e7b87f572b3, type: 2}
+  - {fileID: 11400000, guid: 6dcb48f6b2b6af74f85818505ad2a130, type: 2}
+  - {fileID: 11400000, guid: c517052c172b4d5449c3956843a5d0cb, type: 2}
+  - {fileID: 11400000, guid: b216bbef7c85e63409d7549d9f7d191f, type: 2}
+  - {fileID: 11400000, guid: df36663bc89532447b39254585a7660f, type: 2}
+  - {fileID: 11400000, guid: 5c3e84d556b516b428e7bd44e96ac1e5, type: 2}
+  - {fileID: 11400000, guid: da2860a5b9ee38942a599106b26786ff, type: 2}
+  - {fileID: 11400000, guid: 8b178458ef46ee845a315c594635d642, type: 2}
+  - {fileID: 11400000, guid: 6569adbc1be75574ea662f73cfaedbed, type: 2}
+  TileMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  FallingPlatformSprite: {fileID: 21300000, guid: d9344f0483afe2142a47b00e9954b3f3, type: 3}

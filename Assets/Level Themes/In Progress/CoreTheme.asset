@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8c5a2e6a1be184f903f082baf5a322, type: 3}
+  m_Name: CoreTheme
+  m_EditorClassIdentifier: 
+  LevelName: The Core
+  BackgroundMaterial: {fileID: 2100000, guid: 226252ce42dbaed4fa00b90f5115dcc8, type: 2}
+  Music: {fileID: 0}
+  GameplayChunks:
+  - {fileID: 5766738270749145755, guid: 16884f1dc045568418e948aafce58ea0, type: 3}
+  - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
+  - {fileID: 1864966394089731827, guid: ab41b99408866a241bb49fe386cb9798, type: 3}
+  - {fileID: 5038473837562319830, guid: 73bf4dad3abc330458bc14e14f3282e5, type: 3}
+  - {fileID: 1772510026993663511, guid: 2f98e619179cc774984dafdbe02c2c82, type: 3}
+  - {fileID: 1568198131117083360, guid: 40e6147c06f3a4d44b27c022c91d1644, type: 3}
+  - {fileID: 4017420698737085194, guid: b13812b316f8e404cbeb84018a85e881, type: 3}
+  - {fileID: 6675923076596740364, guid: a7cb8a2f7c0a86e41a561e34cfdeb83e, type: 3}
+  HardGameplayChunks:
+  - {fileID: 8315690002677179451, guid: d90a7f444c247b542bb7e90a1a9005d3, type: 3}
+  - {fileID: 6839593684909816282, guid: 373312163365f3240aa2bd63a175c24d, type: 3}
+  - {fileID: 5232960447946117280, guid: 4a4ebcdf094f2224dac3572844bd86ff, type: 3}
+  - {fileID: 1332077668936316037, guid: 820723335732d27429a581ed328ff08b, type: 3}
+  ThemeEnemies:
+  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
+  ExitChunk: {fileID: 2734993825225769775, guid: 8d866c7440e22af4eaf32d93666a3659, type: 3}
+  LevelLength: 15
+  ExitLevels:
+  - {fileID: 11400000, guid: 3316ca679334bd241a5ce90b90c797af, type: 2}
+  tiles:
+  - {fileID: 11400000, guid: b2f651a311a622349933673cabc6a537, type: 2}
+  - {fileID: 11400000, guid: 17f702a2078f9f1498ab3765e0976fa6, type: 2}
+  - {fileID: 11400000, guid: ba3d0ec1ab134e44b9630121b856a8bc, type: 2}
+  - {fileID: 11400000, guid: 95e6d24bb9e37a1408d40e71e0d9f7fa, type: 2}
+  - {fileID: 11400000, guid: f9add6db97488e14ea788ddc51d98955, type: 2}
+  - {fileID: 11400000, guid: 8baa1cd3172f9d14385caaa60a9d00dc, type: 2}
+  - {fileID: 11400000, guid: 651dfc642d0aeaf4b9d3d08be500f6c9, type: 2}
+  - {fileID: 11400000, guid: eeb7c8394c1a3084abb88db38ead2aff, type: 2}
+  - {fileID: 11400000, guid: 2ca2e4db4643e2f4a874bb1240144cc0, type: 2}
+  - {fileID: 11400000, guid: dc5b8cee7fd18124a86660cad7b252cd, type: 2}
+  TileMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}

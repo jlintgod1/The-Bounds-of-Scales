@@ -7,10 +7,10 @@ using UnityEngine;
 // Base class for anything that runs around, jumps, attacks, etc., like the player and enemies 
 public class Controller : MonoBehaviour
 {
-    protected new Rigidbody2D rigidbody2D;
+    public new Rigidbody2D rigidbody2D { get; protected set; }
     public new Collider2D collider;
-    protected SpriteRenderer spriteRenderer;
-    protected Animator animator;
+    public SpriteRenderer spriteRenderer { get; protected set; }
+    public Animator animator { get; protected set; }
 
     public int Health;
     public int MaxHealth;
@@ -95,8 +95,9 @@ public class Controller : MonoBehaviour
             collider.enabled = false;
         }
 
+        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         rigidbody2D.velocity = new(Mathf.Sign((transform.position - Instigator.transform.position).x) * 6, 8);
-        rigidbody2D.freezeRotation = false;
+        rigidbody2D.constraints = RigidbodyConstraints2D.None;
         rigidbody2D.angularVelocity = 180;
 
         GameManager.Instance.OnControllerDeath(this, Instigator);

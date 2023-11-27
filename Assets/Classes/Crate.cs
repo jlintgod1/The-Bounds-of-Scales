@@ -23,6 +23,14 @@ public class Crate : MonoBehaviour
         
     }
 
+    public virtual int CanWrapAround()
+    {
+        if (transform.position.x < (GameManager.CONST_ScreenDimensions.x / -32.0) - 0.625) return 1;
+        if (transform.position.x > (GameManager.CONST_ScreenDimensions.x / 32.0) + 0.625) return -1;
+
+        return 0;
+    }
+
     void OnIgnite()
     {
         if (onFire) return;
@@ -37,10 +45,21 @@ public class Crate : MonoBehaviour
             item.gameObject.GetComponent<Crate>().Invoke("OnIgnite", 0.33f);
         }
 
-        Invoke("PostIgnite", 2);
+        int WrapAroundStatus = CanWrapAround();
+        if (WrapAroundStatus != 0)
+        {
+            Collider2D[] loopedColliders = Physics2D.OverlapBoxAll(new Vector3((GameManager.CONST_ScreenDimensions.x / 32.0f + 0.5f) * WrapAroundStatus, transform.position.y, transform.position.z), new(2, 2), 0);
+            foreach (var item in loopedColliders)
+            {
+                if (item.gameObject.GetComponent<Crate>() == null) continue;
+                item.gameObject.GetComponent<Crate>().Invoke("OnIgnite", 0.5f);
+            }
+        }
+
+        Destroy(this, 2);
     }
 
-    void PostIgnite()
+    private void OnDestroy()
     {
         fireEffectComponent.Stop();
         Destroy(fireEffectComponent.gameObject, 3);

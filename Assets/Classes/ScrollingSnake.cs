@@ -40,9 +40,14 @@ public class ScrollingSnake : MonoBehaviour
 
         float separation = (_spriteRenderer.size.x - 4) / (PanelTier * 3);
 
+        bool spawnedScalePanel = false;
         for (int i = 0; i < PanelTier * 3; i++)
         {
-            GameObject panelClone = Instantiate(SnakePanelPrefabs[Random.Range(0,PanelTier)], transform.position - new Vector3(separation * (i + 1) * transform.localScale.x + Random.Range(-2, 2), -0.75f, 0.1f), Quaternion.identity, transform);
+            int panelChance = Random.Range(0, PanelTier - (int)(spawnedScalePanel ? 1 : 0));
+            if (panelChance == 2)
+                spawnedScalePanel = true;
+
+            GameObject panelClone = Instantiate(SnakePanelPrefabs[panelChance], transform.position - new Vector3(separation * (i + 1) * transform.localScale.x + Random.Range(-2, 2), -0.625f, 0.1f), Quaternion.identity, transform);
             SpawnedSnakePanels.Add(panelClone);
         }
     }
@@ -66,12 +71,12 @@ public class ScrollingSnake : MonoBehaviour
                 1 * transform.localScale.y,
                 1 * transform.localScale.z);
 
-            EstimatedTimeToRise = (_spriteRenderer.size.x - 24) / Speed;
+            EstimatedTimeToRise = (_spriteRenderer.size.x - 26) / Speed;
         }
         else
         {
             transform.position = new Vector3(transform.position.x - (_spriteRenderer.size.x + 0.5f) * transform.localScale.x, transform.position.y, transform.position.z);
-            EstimatedTimeToRise = (transform.position.x - (_spriteRenderer.size.x - 24)) / Speed;
+            EstimatedTimeToRise = (transform.position.x - (_spriteRenderer.size.x - 26)) / Speed;
         }
 
         UpdatePanels();
@@ -85,7 +90,7 @@ public class ScrollingSnake : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _body2D = GetComponent<Rigidbody2D>();
         InitialPostion = transform.position;
-        EstimatedTimeToRise = Mathf.Abs((transform.position.x - (_spriteRenderer.size.x - 24) * transform.localScale.x) - transform.position.x) / Speed;
+        //EstimatedTimeToRise = Mathf.Abs((transform.position.x - (_spriteRenderer.size.x - 24) * transform.localScale.x) - transform.position.x) / Speed;
 
         if (!IsOffscreen)
         {
@@ -97,7 +102,7 @@ public class ScrollingSnake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOffscreen && WithinScreenBounds(transform.position.x - (_spriteRenderer.size.x - 24) * transform.localScale.x))
+        if (!IsOffscreen && WithinScreenBounds(transform.position.x - (_spriteRenderer.size.x - 26) * transform.localScale.x))
         {
             OnSnakeRise();
         }

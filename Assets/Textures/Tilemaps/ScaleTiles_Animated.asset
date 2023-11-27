@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: ScaleTiles_Animated
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 652958599, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: 1510576022, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -1953879988, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -1910301414, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -1922820553, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -360564799, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -155937762, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: -97649668, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: 1992839075, guid: 111488529753c0341afc633570d0809a, type: 3}
+  - {fileID: 1405766986, guid: 111488529753c0341afc633570d0809a, type: 3}
+  m_MinSpeed: 0.95
+  m_MaxSpeed: 1.05
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 2
+  m_TileAnimationFlags: 0

@@ -8,7 +8,7 @@ public class LevelTheme : ScriptableObject
 {
     public string LevelName;
     public Material BackgroundMaterial;
-    public AudioClip Music;
+    public Sound Music;
 
     [Tooltip("Potential sections that we want the level to be made of.")]
     public List<GameObject> GameplayChunks;
@@ -29,4 +29,5 @@ public class LevelTheme : ScriptableObject
     public TileBase[] tiles = new TileBase[10];
     [Tooltip("Material used for the tiles.")]
     public Material TileMaterial;
+    public Sprite FallingPlatformSprite;
 }
