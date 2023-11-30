@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
     public Image dialogueIcon;
 
     public List<CharacterInfo> characterDatabase;
-    public DialogueInfo currentDialogueInfo;
+    public List<DialogueInfo> currentDialogueInfo;
     private int currentLine;
 
     // Start is called before the first frame update
@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
 
@@ -56,17 +56,29 @@ public class DialogueManager : MonoBehaviour
     }
     public void RunDialogue(DialogueInfo dialogueInfo)
     {
-        currentDialogueInfo = dialogueInfo;
-        currentLine = 0;
-
-        DisplayNextSentence();
+        currentDialogueInfo.Add(dialogueInfo);
+        
+        if (currentDialogueInfo.Count <= 1)
+        {
+            currentLine = 0;
+            DisplayNextSentence();
+        }
     }
     void DisplayNextSentence() 
     {
-        if (currentLine >= currentDialogueInfo.lines.Count)
+        if (currentLine >= currentDialogueInfo[0].lines.Count)
         {
-            dialogueBox.SetBool("Active", false);
-            Invoke("EndDialogue", 1);
+            currentDialogueInfo.RemoveAt(0);
+            if (currentDialogueInfo.Count >= 1)
+            {
+                currentLine = 0;
+                DisplayNextSentence();
+            }
+            else
+            {
+                dialogueBox.SetBool("Active", false);
+                Invoke("EndDialogue", 1);
+            }
             return;
         }
         RectTransform textRect = dialogueText.GetComponent<RectTransform>();
@@ -76,7 +88,7 @@ public class DialogueManager : MonoBehaviour
         CharacterInfo currentCharacter = new();
         for (int i = 0; i < characterDatabase.Count; i++)
         {
-            if (characterDatabase[i].name != currentDialogueInfo.speakingCharacters[currentLine]) continue;
+            if (characterDatabase[i].name != currentDialogueInfo[0].speakingCharacters[currentLine]) continue;
             currentCharacter = characterDatabase[i];
         }
         dialogueName.text = currentCharacter.name;
@@ -115,7 +127,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueText.text = "";
-        string finalLine = ParseString(currentDialogueInfo.lines[currentLine]);
+        string finalLine = ParseString(currentDialogueInfo[0].lines[currentLine]);
         bool inTag = false;
         foreach (char letter in finalLine.ToCharArray())
         {
@@ -133,13 +145,16 @@ public class DialogueManager : MonoBehaviour
                 {
                     yield return null;
                 }
-                yield return new WaitForSecondsRealtime(0.033f);
+                for (float i = 0; i <= 0.033; i+=Time.unscaledDeltaTime)
+                {
+                    yield return null;
+                }
 
                 if (dialogueText.isTextOverflowing)
                 {
                     RectTransform textRect = dialogueText.GetComponent<RectTransform>();
                     textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y + 16);
-                    textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, textRect.anchoredPosition.y + 16);
+                    textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, textRect.anchoredPosition.y + 8);
                 }
             }
         }
@@ -147,7 +162,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
         yield return null;
 
-        currentLine += 1;
+        currentLine++;
         DisplayNextSentence();
     }
     // Update is called once per frame

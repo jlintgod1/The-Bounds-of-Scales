@@ -5,13 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
-
 public class MainMenu : BaseMenu
 {
     public Sound menuMusic;
     ActiveSound musicInstance;
     public List<Slider> VolumeSliders;
+    public Button QuitButton;
+    public Image Background;
 
     public List<GameObject> SaveFileContent;
     public TMP_Text SnakeVenomLabel;
@@ -19,8 +19,7 @@ public class MainMenu : BaseMenu
     public TMP_Text TimeLabel;
     public Slider ProgressBar;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         musicInstance = GameManager.Instance.MusicManager.PlaySound(menuMusic);
 
@@ -29,16 +28,25 @@ public class MainMenu : BaseMenu
         VolumeSliders[1].value = PlayerPrefs.GetFloat("SFXVolume", 1);
         OnChangeSFXVolume(VolumeSliders[1].value);
 
-        SaveFileContent[0].SetActive(string.IsNullOrEmpty(SaveManager.saveData.dataChecksum));
+        SaveFileContent[0].SetActive(SaveManager.saveData.CompletedTutorials.Count <= 0);
         SaveFileContent[1].SetActive(!SaveFileContent[0].activeSelf);
         SnakeVenomLabel.text = "x" + SaveManager.saveData.SnakeVenomCount;
         UpgradesLabel.text = SaveManager.saveData.OwnedUpgrades.Count + "/" + GameManager.Instance.UpgradeDatabase.Count;
-        TimeLabel.text = Mathf.FloorToInt(SaveManager.saveData.TimeSpent / 3600) + 
-            (SaveManager.saveData.TimeSpent > 359940 ? " hrs" : (":" + Mathf.FloorToInt(SaveManager.saveData.TimeSpent / 60)));
+        TimeLabel.text =  + Mathf.FloorToInt(SaveManager.saveData.TimeSpent / 3600) +
+            (SaveManager.saveData.TimeSpent > 359940 ? " hrs" : (":" + Mathf.FloorToInt(SaveManager.saveData.TimeSpent % 60)));
         ProgressBar.value = 48 * (SaveManager.saveData.CompletedTutorials.Count / (GameManager.Instance.AllLevelThemes.Count + 2));
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+            QuitButton.gameObject.SetActive(false);
 
         GameManager.Instance.UI.CircleFade.SetFloat("_Radius", 0);
         StartCoroutine(PostStart());
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     IEnumerator PostStart()
@@ -49,7 +57,7 @@ public class MainMenu : BaseMenu
 
     private void Update()
     {
-        GetComponent<Image>().material.SetFloat("_RealTime", Time.unscaledTime);
+        Background.material.SetFloat("_RealTime", Time.unscaledTime);
     }
 
 

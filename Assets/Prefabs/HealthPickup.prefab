@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: GivesHealth
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7138508919570260570, guid: 98b1bf53c72b3e14bb2807833fa393cb, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138508919570260570, guid: 98b1bf53c72b3e14bb2807833fa393cb, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138508919570260570, guid: 98b1bf53c72b3e14bb2807833fa393cb, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138508919570260570, guid: 98b1bf53c72b3e14bb2807833fa393cb, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8499242691217830862, guid: 98b1bf53c72b3e14bb2807833fa393cb, type: 3}
       propertyPath: m_Size.x
       value: 1

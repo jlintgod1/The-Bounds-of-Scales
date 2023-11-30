@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -61,8 +62,11 @@ public class Crate : MonoBehaviour
 
     private void OnDestroy()
     {
-        fireEffectComponent.Stop();
-        Destroy(fireEffectComponent.gameObject, 3);
+        if (fireEffectComponent != null)
+        {
+            fireEffectComponent.Stop();
+            Destroy(fireEffectComponent.gameObject, 3);
+        }
         VisualEffect destroyEffectComponent = GameManager.Instance.SpawnParticleSystem(destroyEffect, transform.position);
         Destroy(destroyEffectComponent.gameObject, 5);
         Destroy(gameObject);

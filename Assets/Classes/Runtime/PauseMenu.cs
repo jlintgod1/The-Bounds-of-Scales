@@ -97,15 +97,14 @@ public class PauseMenu : BaseMenu
             item.SetBool("Active", false);
         }
         yield return new WaitForSecondsRealtime(0.75f);
-        GameManager.Instance.UI.TriggerCircleFade(true, 0.5f, Color.black, new(0.5f, 0.5f));
         if (restart)
         {
+            GameManager.Instance.UI.TriggerCircleFade(true, 0.5f, Color.black, new(0.5f, 0.5f));
             GameManager.Instance.StartGame(true);
         }
         else
         {
             GameManager.Instance.UI_MainMenu.gameObject.SetActive(true);
-            GameManager.Instance.MusicManager.PlaySound(GameManager.Instance.UI_MainMenu.menuMusic);
         }
     }
 

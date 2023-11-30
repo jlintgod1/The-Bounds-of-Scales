@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Experimental.Rendering.Universal;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameplayUIInterface UI;
     public ShopInterface UI_Shop;
     public MainMenu UI_MainMenu;
+    public List<Material> FontMaterials;
     public List<GameObject> HeadstartPortalTemplate;
     public Vector2 HeadstartPortalLocation;
     public GameObject CircleMinigameTemplate;
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
     public int GameState { get; private set; } // 0 = Menu, 1 = Playing, 2 = Circle Minigame
     public float CurrentDodgeChance = 0;
     public int EnemiesKilled { get; private set; }
+    public int LevelsPlayed { get; private set; }
     private int HeadstartCounter = -1;
     private bool PlayedALevel = false;
 
@@ -86,6 +89,13 @@ public class GameManager : MonoBehaviour
     public DialogueManager.DialogueInfo UpgradeTutorialDialogue;
     public List<DialogueManager.DialogueInfo> StartSessionDialogue;
     public List<DialogueManager.DialogueInfo> PostPlayerDeathDialogue;
+    public DialogueManager.DialogueInfo BuyFirePanelDialogue;
+    public DialogueManager.DialogueInfo BuyCoreKeyDialogue;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    public static extern void InitializeJavascript();
+#endif
 
     public int GetUpgradeCount(string ID)
     {
@@ -113,6 +123,12 @@ public class GameManager : MonoBehaviour
 
             SaveManager.saveData.OwnedUpgrades.Add(ID + (upgradeCount > 0 ? upgradeCount.ToString() : ""));
             VenomCount -= upgradeCost;
+
+            if (ID == "FirePanels")
+                DialogueManager.Instance.RunDialogue(BuyFirePanelDialogue);
+            else if (ID == "CoreKey")
+                DialogueManager.Instance.RunDialogue(BuyCoreKeyDialogue);
+
             return true;
         }
 
@@ -191,7 +207,7 @@ public class GameManager : MonoBehaviour
         {
             if (item == null || item.ExitIndex < 0 || item.ExitIndex >= theme.ExitLevels.Count ) continue;
             LevelTheme chosenLevelTheme = theme.ExitLevels[item.ExitIndex];
-            if (chosenLevelTheme == AllLevelThemes[AllLevelThemes.Count - 1] && GetUpgradeCount("CoreKey") <= 0)
+            if (chosenLevelTheme == AllLevelThemes[AllLevelThemes.Count - 1] && GetUpgradeCount("CoreKey") <= 3)
                 chosenLevelTheme = AllLevelThemes[UnityEngine.Random.Range(0, AllLevelThemes.Count - 1)];
             item.UpdateLevelExit(chosenLevelTheme);
         }
@@ -202,7 +218,7 @@ public class GameManager : MonoBehaviour
             item.GetComponent<SpriteRenderer>().sprite = theme.FallingPlatformSprite;
         }
 
-        if (GetUpgradeCount("CircleMinigame") > 0)
+        if (GetUpgradeCount("CircleMinigame") > 0 && LevelsPlayed % 2 == 0)
         {
             GameObject[] minigameSpawnPoints = GameObject.FindGameObjectsWithTag("MinigameSpawnPoint");
             if (minigameSpawnPoints.Length > 0)
@@ -213,6 +229,8 @@ public class GameManager : MonoBehaviour
         }
 
         LevelBackground.material = theme.BackgroundMaterial;
+
+        LevelsPlayed++;
     }
 
     public VisualEffect SpawnParticleSystem(VisualEffectAsset template, Vector3 position, Transform parent = null)
@@ -234,7 +252,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Copied and modified from AudioSource.PlayClipAtPoint()
-    public static void PlaySoundAtPoint(Sound sound, Vector3 position, float volumeMultiplier=1f, bool Manual=false)
+    public static void PlaySoundAtPoint(Sound sound, Vector3 position, float volumeMultiplier=1f, float pitchMultiplier=1f, bool Manual=false)
     {
         GameObject gameObject = new GameObject(sound.name + "OneShot");
         gameObject.transform.position = position;
@@ -244,16 +262,11 @@ public class GameManager : MonoBehaviour
             audioSource.clip = sound.clip;
         else
             audioSource.clip = sound.oggClip;
-        audioSource.volume = sound.volume;
-        audioSource.pitch = sound.pitch;
+        audioSource.volume = sound.volume * volumeMultiplier;
+        audioSource.pitch = sound.pitch * pitchMultiplier;
         //audioSource.loop = sound.loop;
         audioSource.spatialBlend = sound.spatialAmount;
         audioSource.outputAudioMixerGroup = sound.audioMixerGroup;
-#if UNITY_WEBGL
-        float mixerVolume;
-        sound.audioMixerGroup.audioMixer.GetFloat(sound.audioMixerGroup.name + "Volume", out mixerVolume);
-        audioSource.volume *= mixerVolume;
-#endif
 
         if (!Manual)
         {
@@ -320,10 +333,11 @@ public class GameManager : MonoBehaviour
     IEnumerator CircleMinigameCoroutine(Vector3 position)
     {
 
-        for (float i = 1; i >= 0; i-=0.01f) 
+        for (float i = 1; i >= 0; i-=Time.unscaledDeltaTime * 2) 
         {
             Time.timeScale = i;
-            yield return new WaitForSecondsRealtime(0.005f);
+            MusicManager.ActiveSounds[0].audioSource.pitch = Mathf.Lerp(0.5f, MusicManager.ActiveSounds[0].sound.pitch, i);
+            yield return null;
         }
         SetGameState(0);
 
@@ -356,6 +370,7 @@ public class GameManager : MonoBehaviour
             Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
             UI.Timer.animator.SetBool("Active", false);
             yield return new WaitForSecondsRealtime(1.5f);
+            MusicManager.ActiveSounds[0].audioSource.pitch = MusicManager.ActiveSounds[0].sound.pitch;
             SetGameState(1);
             Player.InitiateFreeRise(Mathf.Min(3 * minigame.CurrentLevel, CurrentLevelTheme.LevelLength * 24 - Player.transform.position.y - 4), 1);
             while (Player.InFreeRise)
@@ -404,7 +419,6 @@ public class GameManager : MonoBehaviour
             TargetCameraPosition = Player.gameObject.transform.position
                 + new Vector3(Player.GetComponent<Rigidbody2D>().velocity.x / 16f, Player.GetComponent<Rigidbody2D>().velocity.y / 16f, Camera.main.transform.position.z);
             Camera.main.transform.position = TargetCameraPosition;
-
             TargetCameraScale = new(0.8f, 0.75f);
             Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
 
@@ -413,6 +427,8 @@ public class GameManager : MonoBehaviour
                 item.SetBool("Active", false);
             }
             UI.LifestealEnemiesRemaining.transform.parent.gameObject.SetActive(false);
+
+            MusicManager.FadeSound(MusicManager.ActiveSounds[0], 0.001f, 0);
 
             SaveManager.SaveSaveFile();
 
@@ -423,7 +439,9 @@ public class GameManager : MonoBehaviour
             EnemiesKilled++;
             int venomUpgrade = GetUpgradeCount("EnemySnakeVenom");
             if (venomUpgrade > 0 && EnemiesKilled % (4 - venomUpgrade) == 0)
+            {
                 VenomCount += GetUpgradeCount("DoubleVenom") + 1;
+            }
 
             int lifestealUpgrade = GetUpgradeCount("Lifesteal");
             if (lifestealUpgrade > 0)
@@ -529,6 +547,7 @@ public class GameManager : MonoBehaviour
         SetGameState(0);
         UI.TriggerCircleFade(false, 1f, Color.white, Camera.main.WorldToViewportPoint(Player.transform.position));
         MusicManager.CrossFadeSound(MusicManager.ActiveSounds[0], level.LevelTheme.Music, 1);
+        SaveManager.AddTutorial(level.LevelTheme.name);
         SaveManager.SaveSaveFile();
         StartCoroutine(PostLevelExit(level));
     }
@@ -621,7 +640,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    public void OnApplicationQuit()
     {
         SaveManager.saveData.TimeSpent += Mathf.FloorToInt(Time.unscaledTime);
         VenomCount++; // Free venom for quitting the game :)
@@ -646,6 +665,11 @@ public class GameManager : MonoBehaviour
         if (UI != null)
             UI.VenomCounter.text = VenomCount.ToString();
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+        UnityEngine.Cursor.SetCursor(null, new(0, 0), CursorMode.Auto);
+        InitializeJavascript();
+#endif
+        //UnityEngine.Cursor.SetCursor()
         //GenerateNewLevel(CurrentLevelTheme);
         SetGameState(0);
     }
@@ -654,6 +678,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        foreach (var item in FontMaterials)
+        {
+            item.SetFloat("_RealTime", Time.unscaledTime);
+
+        }
+
         if (GameState != 1) return;
         if (Snake != null && Snake.CanSnakeRise())
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.EventSystems;
 public class WormEnemy : Controller
 {
     public Collider2D headCollider;
+    public SpriteRenderer eyeRenderer;
+    public float JumpInterval;
+    private float JumpTimer;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -27,8 +31,10 @@ public class WormEnemy : Controller
             ManipulateGraphics(0);
         }
 
-        if (IsGrounded() && jumpPower > 0)
+        JumpTimer -= Time.fixedDeltaTime;
+        if (IsGrounded() && jumpPower > 0 && JumpTimer <= 0)
         {
+            JumpTimer = JumpInterval;
             rigidbody2D.velocity = rigidbody2D.velocity * Vector2.right + Vector2.up * jumpPower;
         }
     }
@@ -36,7 +42,14 @@ public class WormEnemy : Controller
     protected override void ManipulateGraphics(float value)
     {
         if (value != 0)
+        {
             spriteRenderer.flipX = value < 0;
+            if (eyeRenderer != null)
+                eyeRenderer.flipX = value < 0;
+        }
+        if (eyeRenderer != null)
+            eyeRenderer.transform.localPosition = new(eyeRenderer.transform.localPosition.x, 0.125f * Mathf.Clamp(rigidbody2D.velocity.y / 2, -1, 1), -0.01f);
+
         base.ManipulateGraphics(value);
     }
 

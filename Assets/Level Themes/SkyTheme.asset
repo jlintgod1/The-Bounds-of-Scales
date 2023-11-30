@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelName: Sky
   BackgroundMaterial: {fileID: 2100000, guid: 5abe63f3cbe62dd40a73837a2b410b70, type: 2}
-  Music: {fileID: 11400000, guid: ec35b406167e0624199035f711428ea1, type: 2}
+  Music: {fileID: 11400000, guid: 0e2cf16b06615dd4083c58a5737ea9ab, type: 2}
   GameplayChunks:
   - {fileID: 5766738270749145755, guid: 16884f1dc045568418e948aafce58ea0, type: 3}
   - {fileID: 5107792332523575129, guid: c87f2f7e7248ddb4f8a6837ea89d5879, type: 3}
@@ -30,7 +30,7 @@ MonoBehaviour:
   - {fileID: 5232960447946117280, guid: 4a4ebcdf094f2224dac3572844bd86ff, type: 3}
   - {fileID: 1332077668936316037, guid: 820723335732d27429a581ed328ff08b, type: 3}
   ThemeEnemies:
-  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  - {fileID: 3126245371593911892, guid: f4275d37683022846b411c55b0342cd9, type: 3}
   EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
   ExitChunk: {fileID: 4334289596655935771, guid: df69d06f49adb0f43a840d7a5ad52357, type: 3}
   LevelLength: 6

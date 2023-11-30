@@ -19,6 +19,9 @@ public class CircleMinigame : MonoBehaviour
     float AimAngle;
     SpriteRenderer selectedCircle;
     float HitAlpha;
+
+    public Sound HitSound;
+    public Sound TimeTickSound;
     
     void Awake()
     {
@@ -64,7 +67,7 @@ public class CircleMinigame : MonoBehaviour
         if (!active) return;
         HitAlpha = Mathf.Max(HitAlpha - Time.unscaledDeltaTime * 2.5f, 0);
 
-        transform.Rotate(new(0, 0, CurrentLevel * 5 * Time.unscaledDeltaTime));
+        transform.Rotate(new(0, 0, CurrentLevel * 5 * Time.unscaledDeltaTime * (1 + GameManager.Instance.GlobalDifficulty / 2)));
 
         Vector3 relative;
         if (Gamepad.current != null)
@@ -121,6 +124,7 @@ public class CircleMinigame : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
         if (selectedCircle.color == playerSprites[0].color)
         {
+            GameManager.PlaySoundAtPoint(HitSound, transform.position, 1, 1 + (CurrentLevel / 8f));
             IncreaseLevel();
         }
         else

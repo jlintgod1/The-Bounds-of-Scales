@@ -39,7 +39,7 @@ public class SaveManager : MonoBehaviour
     public static SaveData saveData = new SaveData();
 
     // WebGL caches file changes, which is why we need this to push the changes immediately
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")]
     public static extern void FlushFileWrites();
 #endif
@@ -79,7 +79,7 @@ public class SaveManager : MonoBehaviour
         formatter.Serialize(stream, saveData);
         // Close the file stream
         stream.Close();
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
         FlushFileWrites();
 #endif
     }

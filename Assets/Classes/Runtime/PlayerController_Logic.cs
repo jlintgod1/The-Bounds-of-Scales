@@ -299,7 +299,7 @@ public class PlayerController_Logic : PlayerController_Movement
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (InFreeRise) return;
-        if (collision.gameObject.CompareTag("Snake") || collision.gameObject.CompareTag("Enemy"))
+        if ((collision.gameObject.CompareTag("Snake") || collision.gameObject.CompareTag("Enemy")) && transform.position.y >= collision.gameObject.transform.position.y)
         {
             if (!InJumpPanelAbility)
             {

@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rigidbody2D.velocity = transform.TransformDirection(Vector2.right) * Speed;
+        rigidbody2D.velocity = transform.TransformDirection(Vector2.right) * Mathf.Pow(Speed, 1 + GameManager.Instance.GlobalDifficulty / 15);
     }
 
     private void OnDestroy()

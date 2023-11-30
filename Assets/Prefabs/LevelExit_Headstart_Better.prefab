@@ -12,6 +12,34 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ca40ae42d10640c4c963c0fcc8bcdcbc, type: 2}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_Intensity
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_LocalBounds.m_Center.y
+      value: -0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.x
+      value: 0.9985302
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177943657390602699, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.y
+      value: 0.99853027
+      objectReference: {fileID: 0}
     - target: {fileID: 7337938977084799986, guid: d2bbc2ec91b039f4fbaf11412ecfed51, type: 3}
       propertyPath: m_Name
       value: LevelExit_Headstart_Better
