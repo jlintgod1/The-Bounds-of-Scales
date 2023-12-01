@@ -22,6 +22,8 @@ public class FlyingTurretEnemy : Controller
         initialPosition = transform.position;
         initialJetPackPosition = jetPack.transform.position;
         currentAngle = 45 * Random.Range(0, 8);
+
+        shootInterval /= (1 + GameManager.Instance.GlobalDifficulty / 3);
     }
 
     // Update is called once per frame

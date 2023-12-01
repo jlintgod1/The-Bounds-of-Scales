@@ -23,7 +23,7 @@ public class DynamicEnemySpawner : MonoBehaviour
         int DuplicateChance = EligibleForDuplicates ? Mathf.FloorToInt(Random.Range(0f, Mathf.Max(GameManager.Instance.GlobalDifficulty - 1f, 0.001f))) : 1;
         for (int i = 0; i < DuplicateChance; i++)
         {
-            float DifficultyChance = DifficultyImportance * 0.15f + 0.33f;
+            float DifficultyChance = DifficultyImportance * 0.25f + 0.33f;
             GameObject newEnemy;
             if (ThemeDependency > -1)
                 newEnemy = GameManager.Instance.CurrentLevelTheme.ThemeEnemies[ThemeDependency];

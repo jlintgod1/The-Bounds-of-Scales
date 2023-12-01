@@ -144,7 +144,7 @@ SubShader {
 			scale *= abs(input.texcoord1.y) * _GradientScale * (_Sharpness + 1);
 			if(UNITY_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale, abs(dot(UnityObjectToWorldNormal(input.normal.xyz), normalize(WorldSpaceViewDir(vert)))));
 
-			vPosition.y += _VertexOffsetY + sin(_RealTime * 2 + input.vertex.x * 5 + input.vertex.y * 3.5) * scale / 8000;
+			//vPosition.y += _VertexOffsetY + sin(_RealTime * 2 + input.vertex.x * 5 + input.vertex.y * 3.5) * scale / 8000;
 
 			float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
 			weight = (weight + _FaceDilate) * _ScaleRatioA * 0.5;

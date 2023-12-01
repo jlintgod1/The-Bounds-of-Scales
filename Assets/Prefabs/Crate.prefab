@@ -145,3 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireEffect: {fileID: 8926484042661614526, guid: a3065557f46d8b4419e8876fcd775ab5, type: 3}
   destroyEffect: {fileID: 8926484042661614526, guid: ccb4fec97078f4d4ab1039439b74331a, type: 3}
+  fireEffectCPU: {fileID: 8337478298289605553, guid: 9a245eb76dd5854499832c2e54a878a4, type: 3}
+  destroyEffectCPU: {fileID: 8337478298289605553, guid: 0926dbda189eceb48b0f455cd9ed0ccf, type: 3}
+  fireEffectCPUInstance: {fileID: 0}

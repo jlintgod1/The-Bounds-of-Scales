@@ -45,6 +45,7 @@ public class SaveManager : MonoBehaviour
 #endif
     public static void SaveSaveFile()
     {
+        if (saveData.CompletedTutorials.Count <= 0) return; // Nothing to save, don't override any save files
         // File paths for the main save file along with its backup
         string filePath = Application.persistentDataPath + "/SaveFile.data";
         string backupFilePath = Application.persistentDataPath + "/SaveFile.data.bak";

@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelName: Haunted Mansion
   BackgroundMaterial: {fileID: 2100000, guid: 7480dca600c46334db587c0213b0244a, type: 2}
-  Music: {fileID: 0}
+  Music: {fileID: 11400000, guid: 9bba20534bbe8c04da4d844a4ad94521, type: 2}
   GameplayChunks:
   - {fileID: 5038473837562319830, guid: 73bf4dad3abc330458bc14e14f3282e5, type: 3}
+  - {fileID: 5251537560580345818, guid: 0ffecd4bb1fefec4e95ac30f3fab410e, type: 3}
   - {fileID: 46032262811848075, guid: d61781e95e3d5694bacabfcc9d7ba688, type: 3}
   - {fileID: 6675923076596740364, guid: a7cb8a2f7c0a86e41a561e34cfdeb83e, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5899274412979933340, guid: 0093744fb2fa7f7409bdef97ca77d096, type: 3}
+  - {fileID: 8019922879202236543, guid: 084234e02cff53243a210a7cffbde2fb, type: 3}
+  - {fileID: 309221242502237199, guid: 7fda169c9704be249ada43496bb56084, type: 3}
+  - {fileID: 199801543140491567, guid: 6d468f9f35fed5b4cade36a85a57a032, type: 3}
+  - {fileID: 6957866202423476176, guid: 28aed3512c9deb24ea4177e9ee4370c4, type: 3}
+  - {fileID: 9008192438339015918, guid: e78447ee81e1dc246a607ed3f19aa770, type: 3}
+  - {fileID: 127500479774718068, guid: 589568e7e7772444185fbb6f427b8d4d, type: 3}
   HardGameplayChunks:
   - {fileID: 6206882909190463257, guid: 55421c4991f57974982dcf514d13d344, type: 3}
   - {fileID: 7032922358768205224, guid: 9a240eac2eaac224a8db71f8d824364f, type: 3}
@@ -42,15 +42,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0f9dcb1073c1f74488db71a62bfdad6, type: 2}
   - {fileID: 11400000, guid: 3316ca679334bd241a5ce90b90c797af, type: 2}
   tiles:
-  - {fileID: 11400000, guid: b2f651a311a622349933673cabc6a537, type: 2}
-  - {fileID: 11400000, guid: 17f702a2078f9f1498ab3765e0976fa6, type: 2}
-  - {fileID: 11400000, guid: ba3d0ec1ab134e44b9630121b856a8bc, type: 2}
-  - {fileID: 11400000, guid: 95e6d24bb9e37a1408d40e71e0d9f7fa, type: 2}
-  - {fileID: 11400000, guid: f9add6db97488e14ea788ddc51d98955, type: 2}
-  - {fileID: 11400000, guid: 8baa1cd3172f9d14385caaa60a9d00dc, type: 2}
-  - {fileID: 11400000, guid: 651dfc642d0aeaf4b9d3d08be500f6c9, type: 2}
-  - {fileID: 11400000, guid: eeb7c8394c1a3084abb88db38ead2aff, type: 2}
-  - {fileID: 11400000, guid: 2ca2e4db4643e2f4a874bb1240144cc0, type: 2}
-  - {fileID: 11400000, guid: dc5b8cee7fd18124a86660cad7b252cd, type: 2}
+  - {fileID: 11400000, guid: cda2db65b01cb6b45857798c4b9aae35, type: 2}
+  - {fileID: 11400000, guid: a83857397b21879438ddead1665b36b1, type: 2}
+  - {fileID: 11400000, guid: 617ee628e1c6c9f48af5410f7c02c6d6, type: 2}
+  - {fileID: 11400000, guid: 8f67465c9ea298947ae4ed3a1f07c5b5, type: 2}
+  - {fileID: 11400000, guid: a84d1829b3965b845b161666dc8620c9, type: 2}
+  - {fileID: 11400000, guid: c3b6e34546da42f4589fc0b030729d51, type: 2}
+  - {fileID: 11400000, guid: 27b049de025f9974db5cb343a8fb59e4, type: 2}
+  - {fileID: 11400000, guid: 42cf233c800089d41b27ff2dbd64f656, type: 2}
+  - {fileID: 11400000, guid: 9c55f425ace098c409a084aa2a76006a, type: 2}
+  - {fileID: 11400000, guid: a642514ef213a644d91ea330a0368694, type: 2}
   TileMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  FallingPlatformSprite: {fileID: 0}
+  FallingPlatformSprite: {fileID: 21300000, guid: 6d0a36f1073a3b445a7df7c13a84b743, type: 3}

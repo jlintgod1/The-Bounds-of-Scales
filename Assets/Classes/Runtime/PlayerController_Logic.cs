@@ -17,6 +17,13 @@ public class PlayerController_Logic : PlayerController_Movement
     public VisualEffect ScaleAbilityEffect;
     public VisualEffect SleepingEffect;
     public SpriteRenderer FireAbilityTimer;
+    public List<PhysicsMaterial2D> PhysicsMaterials;
+
+    public ParticleSystem JumpAbilityCPUEffect;
+    public ParticleSystem FireAbilityCPUEffect;
+    public ParticleSystem ScaleAbilityCPUEffect;
+    public ParticleSystem SleepingCPUEffect;
+    public GameObject LuckyBreakEffect;
 
     public enum PlayerExpression
     {
@@ -70,6 +77,7 @@ public class PlayerController_Logic : PlayerController_Movement
     void PostScalePanelAbility()
     {
         ScaleAbilityEffect.Stop();
+        ScaleAbilityCPUEffect.Stop();
     }
 
     void ToggleScalePanelAbility(bool state)
@@ -96,7 +104,15 @@ public class PlayerController_Logic : PlayerController_Movement
             ((BoxCollider2D)collider).offset = new Vector2(0, -0.5f) / (state ? 2 : 1);
         }
 
-        ScaleAbilityEffect.Play();
+        if (GameManager.Instance.GetUpgradeCount("BetterPanels") > 0)
+        {
+            rigidbody2D.sharedMaterial = PhysicsMaterials[state ? 1 : 0];
+        }
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+            ScaleAbilityCPUEffect.Play();
+        else
+            ScaleAbilityEffect.Play();
         Invoke("PostScalePanelAbility", 1.5f);
     }
 
@@ -157,6 +173,7 @@ public class PlayerController_Logic : PlayerController_Movement
         {
             InJumpPanelAbility = false;
             JumpAbilityEffect.Stop();
+            JumpAbilityCPUEffect.Stop();
             if (InvincibilityFrames < 0.1f)
                 InvincibilityFrames = 0.1f;
         }
@@ -167,9 +184,13 @@ public class PlayerController_Logic : PlayerController_Movement
         {
             FireTimer = -999;
             FireAbilityEffect.Stop();
+            FireAbilityCPUEffect.Stop();
             FireAbilityTimer.gameObject.SetActive(false);
             if (InvincibilityFrames < 0.1f)
                 InvincibilityFrames = 0.1f;
+
+            if (GameManager.Instance.GetUpgradeCount("BetterPanels") > 0)
+                speed /= 1.2499f;
         }
 
         ScalePanelCooldown -= Time.deltaTime;
@@ -210,11 +231,20 @@ public class PlayerController_Logic : PlayerController_Movement
         Face.sprite = FaceExpressions[(int)expression];
         ExpressionTimeLeft = duration;
 
-        
+
         if (expression == PlayerExpression.Sleeping)
-            SleepingEffect.Play();
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+                SleepingCPUEffect.Play();
+            else
+                SleepingEffect.Play();
+
+        }
         else
+        {
             SleepingEffect.Stop();
+            SleepingCPUEffect.Stop();
+        }
     }
 
     protected override void ManipulateGraphics(float value)
@@ -260,8 +290,9 @@ public class PlayerController_Logic : PlayerController_Movement
     IEnumerator OnLuckyBreak()
     {
         GameManager.Instance.SetGameState(0);
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(0.66f);
         GameManager.Instance.SetGameState(1);
+        Instantiate(LuckyBreakEffect, transform.position, Quaternion.identity);
     }
 
     public override void TakeDamage(GameObject Instigator, int Damage)
@@ -312,17 +343,28 @@ public class PlayerController_Logic : PlayerController_Movement
         }
         else if (collision.gameObject.CompareTag("JumpPanel"))
         {
-            rigidbody2D.velocity = new(rigidbody2D.velocity.x, snakeJumpPanelHeight);
-            JumpAbilityEffect.Play();
+            rigidbody2D.velocity = new(rigidbody2D.velocity.x, snakeJumpPanelHeight * (1 + GameManager.Instance.GetUpgradeCount("BetterPanels") * 0.5f));
+
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+                JumpAbilityCPUEffect.Play();
+            else
+                JumpAbilityEffect.Play();
+
             SetExpression(PlayerExpression.Happy, 1);
             InJumpPanelAbility = true;
         }
         else if (collision.gameObject.CompareTag("FirePanel"))
         {
-            FireAbilityEffect.Play();
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+                FireAbilityCPUEffect.Play();
+            else
+                FireAbilityEffect.Play();
             FireAbilityTimer.gameObject.SetActive(true);
             SetExpression(PlayerExpression.Happy, 1);
             FireTimer = 3.1f;
+
+            if (GameManager.Instance.GetUpgradeCount("BetterPanels") > 0)
+                speed *= 1.25f;
         }
         else if (collision.gameObject.CompareTag("ScalePanel"))
         {

@@ -24,6 +24,9 @@ public class Controller : MonoBehaviour
     public bool falling {get; protected set;}
     public Collider2D groundCheck;
 
+    // Effects
+    public GameObject DamageParticles;
+
     public bool IsGrounded()
     {
         return groundCheck.IsTouchingLayers(groundCheck.includeLayers);
@@ -111,6 +114,9 @@ public class Controller : MonoBehaviour
     public virtual void TakeDamage(GameObject Instigator, int Damage)
     { 
         Health = Mathf.Clamp(Health - Damage, 0, MaxHealth);
+
+        if (Damage > 0)
+            Instantiate(DamageParticles, transform.position, Quaternion.identity);
 
         if (Health <= 0)
         {

@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5720968652718538790, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -756704158, guid: a6036de7e8e096545ac1f7158ea3f020, type: 3}
     - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
       propertyPath: ThemeDependency
       value: -1
@@ -62,12 +66,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
       propertyPath: HardEnemies.Array.size
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
       propertyPath: HardEnemies.Array.data[0]
       value: 
       objectReference: {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+    - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
+      propertyPath: HardEnemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 3885136193505203469, guid: 6994266e79c900040907a80d263fe3aa, type: 3}
+    - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
+      propertyPath: HardEnemies.Array.data[2]
+      value: 
+      objectReference: {fileID: 3126245371593911892, guid: f4275d37683022846b411c55b0342cd9, type: 3}
+    - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
+      propertyPath: HardEnemies.Array.data[3]
+      value: 
+      objectReference: {fileID: 3828918710552555951, guid: 0d385549775976046a66b3c757003b93, type: 3}
+    - target: {fileID: 8309821182421479276, guid: b10753e623f3b2d43bbb4bd0926ddbbe, type: 3}
+      propertyPath: HardEnemies.Array.data[4]
+      value: 
+      objectReference: {fileID: 3767161433447939394, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

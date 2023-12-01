@@ -1059,9 +1059,9 @@ MonoBehaviour:
     MaxBuyCount: 3
     CostMultiplier: 1.8
   - ID: JumpPanels
-    Name: Jump Panels
-    Description: Twig now has 3 panels that will launch you upward and defeat enemies
-      that are in your way! Fly to new heights!
+    Name: Jump Scales
+    Description: Twig now has 3 scales that will launch you upward and defeat enemies
+      that are in your way! Scale to new heights!
     Icon: {fileID: 899809871, guid: fba4aff23513152469751cd2baa78418, type: 3}
     Cost: 15
     Prerequisites:
@@ -1070,8 +1070,8 @@ MonoBehaviour:
     MaxBuyCount: 1
     CostMultiplier: 1
   - ID: FirePanels
-    Name: Fire Panels
-    Description: Twig now has additional 3 panels that will set you on fire and help
+    Name: Fire Scales
+    Description: Twig now has additional 3 scales that will set you on fire and help
       you destroy wooden obstacles! Burn them away!
     Icon: {fileID: 1803423417, guid: fba4aff23513152469751cd2baa78418, type: 3}
     Cost: 60
@@ -1081,8 +1081,8 @@ MonoBehaviour:
     MaxBuyCount: 1
     CostMultiplier: 1
   - ID: ScalePanels
-    Name: Scale Panels
-    Description: Twig now has additional 3 panels that will shrink you, allowing
+    Name: Scale... Scales?
+    Description: Twig now has additional 3 scales that will shrink you, allowing
       you to fit into smaller spaces and evade large obstacles! Jump on them again
       to grow back!
     Icon: {fileID: -1894826429, guid: fba4aff23513152469751cd2baa78418, type: 3}
@@ -1096,9 +1096,9 @@ MonoBehaviour:
     MaxBuyCount: 1
     CostMultiplier: 1
   - ID: ExtraPanels
-    Name: Extra Panels
-    Description: Twig now has additional 3 panels! They can be jump, fire, or scale
-      panels!
+    Name: Extra Scales
+    Description: Twig now has additional 3 scales! They can be jump, fire, or scale
+      scales! Man, who named these?
     Icon: {fileID: -1766343440, guid: fba4aff23513152469751cd2baa78418, type: 3}
     Cost: 300
     Prerequisites:
@@ -1236,9 +1236,9 @@ MonoBehaviour:
     MaxBuyCount: 1
     CostMultiplier: 1
   - ID: BetterPanels
-    Name: Snake Panels+
-    Description: Your snake panels are now better! Jump panels launch you higher,
-      fire panels make you faster, and scale panels make you more bouncy!
+    Name: Snake Scales+
+    Description: Your snake scales are now better! Jump scales launch you higher,
+      fire scales make you faster, and scale scales make you more bouncy!
     Icon: {fileID: 1408534464, guid: fba4aff23513152469751cd2baa78418, type: 3}
     Cost: 800
     Prerequisites:
@@ -11306,63 +11306,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7fd44a99e2109540947d3c73c9b4822, type: 3}
---- !u!1001 &6326538187211206790
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3767161433447939394, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_Name
-      value: Ghost
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8703258927964081853, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2e6363b5c98a97b41a3075f5f691ec81, type: 3}
 --- !u!1001 &7285273687325980968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11430,4 +11373,3 @@ SceneRoots:
   - {fileID: 7285273687325980968}
   - {fileID: 331443679}
   - {fileID: 1706793449}
-  - {fileID: 6326538187211206790}

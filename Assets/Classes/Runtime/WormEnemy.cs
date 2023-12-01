@@ -11,6 +11,14 @@ public class WormEnemy : Controller
     public float JumpInterval;
     private float JumpTimer;
 
+    protected void Start()
+    {
+        base.Start();
+
+        speed *= 1 + GameManager.Instance.GlobalDifficulty / 3;
+        jumpPower *= 1 + GameManager.Instance.GlobalDifficulty / 2f + UnityEngine.Random.Range(0, GameManager.Instance.GlobalDifficulty / 5f);
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -22,7 +30,7 @@ public class WormEnemy : Controller
 
         RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.right * direction, 1f, LayerMask.GetMask("Ground"));
         RaycastHit2D floorRaycastHit2D = Physics2D.Raycast(transform.position + Vector3.right * direction * 0.5f, Vector2.down, 1f, LayerMask.GetMask("Ground"));
-        if (raycastHit2D.collider != null || (floorRaycastHit2D.collider == null && rigidbody2D.velocity.y >= 0 && IsGrounded()))
+        if (raycastHit2D.collider != null || (floorRaycastHit2D.collider == null && rigidbody2D.velocity.y >= 0 && (IsGrounded() || jumpPower > 0)))
         {
             ManipulateGraphics(direction * -1);
         }

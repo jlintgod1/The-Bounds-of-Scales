@@ -38,7 +38,7 @@ MonoBehaviour:
   - {fileID: 5966951821099569131, guid: cbcfc5b928ae0034ca44a4ad59e557fb, type: 3}
   - {fileID: 1332077668936316037, guid: 820723335732d27429a581ed328ff08b, type: 3}
   ThemeEnemies:
-  - {fileID: 8712466955489391759, guid: 1e3ac65b34f7859468a280b713fb6d5b, type: 3}
+  - {fileID: 3885136193505203469, guid: 6994266e79c900040907a80d263fe3aa, type: 3}
   EntranceChunk: {fileID: 3554796394792273009, guid: 553f306041695ed4fab8de77ffe7113e, type: 3}
   ExitChunk: {fileID: 2734993825225769775, guid: 8d866c7440e22af4eaf32d93666a3659, type: 3}
   LevelLength: 10

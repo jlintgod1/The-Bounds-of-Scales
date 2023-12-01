@@ -9,6 +9,9 @@ public class Crate : MonoBehaviour
     new Collider2D collider2D;
     public VisualEffectAsset fireEffect;
     public VisualEffectAsset destroyEffect;
+    public GameObject fireEffectCPU;
+    public GameObject destroyEffectCPU;
+    public GameObject fireEffectCPUInstance;
     public bool onFire { get; private set; }
     VisualEffect fireEffectComponent;
 
@@ -37,7 +40,11 @@ public class Crate : MonoBehaviour
         if (onFire) return;
         onFire = true;
 
-        fireEffectComponent = GameManager.Instance.SpawnParticleSystem(fireEffect, transform.position);
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+            fireEffectCPUInstance = Instantiate(fireEffectCPU, transform.position, Quaternion.identity);
+        else
+            fireEffectComponent = GameManager.Instance.SpawnParticleSystem(fireEffect, transform.position);
+
 
         Collider2D[] surroundingColliders = Physics2D.OverlapBoxAll(transform.position, new(3, 3), 0);
         foreach (var item in surroundingColliders)
@@ -67,8 +74,21 @@ public class Crate : MonoBehaviour
             fireEffectComponent.Stop();
             Destroy(fireEffectComponent.gameObject, 3);
         }
-        VisualEffect destroyEffectComponent = GameManager.Instance.SpawnParticleSystem(destroyEffect, transform.position);
-        Destroy(destroyEffectComponent.gameObject, 5);
+        if (fireEffectCPUInstance != null)
+        {
+            fireEffectCPUInstance.GetComponent<ParticleSystem>().Stop();
+        }
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            Instantiate(destroyEffectCPU, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            VisualEffect destroyEffectComponent = GameManager.Instance.SpawnParticleSystem(destroyEffect, transform.position);
+            Destroy(destroyEffectComponent.gameObject, 5);
+        }
+
         Destroy(gameObject);
     }
 

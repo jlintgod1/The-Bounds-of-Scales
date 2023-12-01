@@ -315,6 +315,7 @@ public class GameManager : MonoBehaviour
             Snake.transform.position = SnakeInitialPosition;
             Snake.transform.localScale = new Vector3(1, 1, 1);
             Snake.EstimatedTimeToRise = (Snake.GetComponent<SpriteRenderer>().size.x - 24) / Snake.Speed;
+            Snake.Speed = SnakeTemplate.GetComponent<ScrollingSnake>().Speed * (1 + GlobalDifficulty / 5);
         }
         if (PlayerInitialPosition != new Vector3(-999, -999, -999))
         {
@@ -365,11 +366,11 @@ public class GameManager : MonoBehaviour
 
             minigame.OnFinishGame();
             TargetCameraPosition = OldTargetPosition;
-            TargetCameraScale = new(TargetCameraScale.x, 1f);
+            TargetCameraScale = new(1, 1f);
             Camera.main.transform.position = TargetCameraPosition;
             Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
             UI.Timer.animator.SetBool("Active", false);
-            yield return new WaitForSecondsRealtime(1.5f);
+            yield return new WaitForSecondsRealtime(1f);
             MusicManager.ActiveSounds[0].audioSource.pitch = MusicManager.ActiveSounds[0].sound.pitch;
             SetGameState(1);
             Player.InitiateFreeRise(Mathf.Min(3 * minigame.CurrentLevel, CurrentLevelTheme.LevelLength * 24 - Player.transform.position.y - 4), 1);

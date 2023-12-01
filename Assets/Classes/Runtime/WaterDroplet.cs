@@ -10,6 +10,7 @@ public class WaterDroplet : MonoBehaviour
     void Start()
     {
         Instantiate(EnemyPrefabs[Random.Range(0, EnemyPrefabs.Count)], transform.position, Quaternion.identity);
+        TerminalVelocity *= 1 + GameManager.Instance.GlobalDifficulty / 2;
     }
 
     // Update is called once per frame

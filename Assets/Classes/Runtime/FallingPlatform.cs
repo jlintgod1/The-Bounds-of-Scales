@@ -12,6 +12,7 @@ public class FallingPlatform : MonoBehaviour
     void Start()
     {
         OriginalPosition = transform.position;
+        FallDelay /= (1 + GameManager.Instance.GlobalDifficulty / 2);
     }
 
     // Update is called once per frame

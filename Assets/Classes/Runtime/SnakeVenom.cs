@@ -16,7 +16,10 @@ public class SnakeVenom : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        transform.position = InitalPosition + new Vector3(0, Mathf.Sin(Mathf.PI * Time.time + InitalPosition.x + InitalPosition.y) / 16, 0);
+        Vector3 circleMotion = Mathf.Cos(Mathf.PI * Time.time * GameManager.Instance.GlobalDifficulty) * new Vector3(1, 0, 0) + Mathf.Sin(Mathf.PI * Time.time * GameManager.Instance.GlobalDifficulty) * new Vector3(0, 1, 0);
+        circleMotion *= GameManager.Instance.GlobalDifficulty / 2;
+
+        transform.position = InitalPosition + circleMotion + new Vector3(0, Mathf.Sin(Mathf.PI * Time.time + InitalPosition.x + InitalPosition.y) / 16, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

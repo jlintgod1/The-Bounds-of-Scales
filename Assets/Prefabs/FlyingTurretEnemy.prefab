@@ -274,7 +274,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 73685e0b8e8cdc94ba0a487030a2b4b1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -294,7 +294,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 5844084184232354411}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 73685e0b8e8cdc94ba0a487030a2b4b1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -339,6 +339,7 @@ MonoBehaviour:
   jumpPower: 0
   direction: 1
   groundCheck: {fileID: 0}
+  DamageParticles: {fileID: 5746945240063149196, guid: 2f053bfb71e76c54c8707eb11ed445b3, type: 3}
   face: {fileID: 3535049602395868402}
   jetPack: {fileID: 8589390573893294078}
   bulletTemplate: {fileID: 3715366070003400158, guid: 2bdc129906a077741a0e4750c119e33c, type: 3}

@@ -210,7 +210,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 73685e0b8e8cdc94ba0a487030a2b4b1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -230,7 +230,7 @@ EdgeCollider2D:
   m_GameObject: {fileID: 8712466955489391759}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 73685e0b8e8cdc94ba0a487030a2b4b1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -374,6 +374,7 @@ MonoBehaviour:
   jumpPower: 0
   direction: 1
   groundCheck: {fileID: 8954493142475029766}
+  DamageParticles: {fileID: 5746945240063149196, guid: 2f053bfb71e76c54c8707eb11ed445b3, type: 3}
   headCollider: {fileID: 8004546902385119429}
   eyeRenderer: {fileID: 0}
   JumpInterval: 0

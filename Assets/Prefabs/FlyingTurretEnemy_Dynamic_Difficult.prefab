@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1085268007408131100, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
       propertyPath: m_Name
-      value: FlyingTurretEnemy_Dynamic Variant
+      value: FlyingTurretEnemy_Dynamic_Difficult
       objectReference: {fileID: 0}
     - target: {fileID: 5395581013428028276, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5542174766985654187, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2122712718, guid: f01cc1a8784242a40a63e48e31dc4811, type: 3}
     - target: {fileID: 8133323274500210913, guid: 6bed5ab28eee0f946bfbf87875fccc16, type: 3}
       propertyPath: EasyEnemies.Array.size
       value: 1
