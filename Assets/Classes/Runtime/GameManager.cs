@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
     public List<DialogueManager.DialogueInfo> PostPlayerDeathDialogue;
     public DialogueManager.DialogueInfo BuyFirePanelDialogue;
     public DialogueManager.DialogueInfo BuyCoreKeyDialogue;
+    public DialogueManager.DialogueInfo CircleMinigameTutorialDialogue;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")]
@@ -354,10 +355,21 @@ public class GameManager : MonoBehaviour
             Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU = Mathf.FloorToInt(16 / TargetCameraScale.x);
             yield return new WaitForSecondsRealtime(0.5f);
 
+            UI.Timer.value = 96;
             UI.Timer.animator.SetBool("Active", true);
 
             yield return new WaitForSecondsRealtime(0.5f);
             SetGameState(0);
+
+            if (!SaveManager.IsTutorialComplete("CircleMinigame"))
+            {
+                DialogueManager.Instance.RunDialogue(CircleMinigameTutorialDialogue);
+                while (minigame.CurrentLevel < 4)
+                {
+                    yield return null;
+                }
+                SaveManager.AddTutorial("CircleMinigame");
+            }
 
             float timeLimit = (GetUpgradeCount("BetterBounceRings") > 0 ? 8 : 5);
             for (float i = timeLimit; i >= 0; i -= 0.01f)

@@ -1190,7 +1190,7 @@ MonoBehaviour:
     CostMultiplier: 1
   - ID: CoreKey
     Name: Core Key
-    Description: That's where Jake is hiding!
+    Description: That's where Jake is hiding... if it existed.
     Icon: {fileID: 2000830837, guid: fba4aff23513152469751cd2baa78418, type: 3}
     Cost: 750
     Prerequisites:
@@ -1350,6 +1350,19 @@ MonoBehaviour:
     speakingCharacters:
     - Jake
     - Jake
+  CircleMinigameTutorialDialogue:
+    lines:
+    - Woah Sandra, these <#0000bb>Bounce Rings seem pretty cool! I wonder if we can
+      scale over everything with these!
+    - Aim your mouse towards the circle that matches your color and left click to
+      hit it! Make sure you keep track of the time, as you only have a certain amount
+      of time to hit some!
+    - If we can hit enough circles, we can soar over everything here and find Jake
+      faster!
+    speakingCharacters:
+    - Twig
+    - Twig
+    - Twig
 --- !u!4 &331443679
 Transform:
   m_ObjectHideFlags: 0

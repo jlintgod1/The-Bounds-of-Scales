@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArcadeMusic
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 579b08da99456854ea7dc2e299d49646, type: 3}
-  oggClip: {fileID: 0}
+  oggClip: {fileID: 8300000, guid: 7fa0509f374b5a748aaf5e30cca120fd, type: 3}
   volume: 1
   pitch: 1
   loop: 1
