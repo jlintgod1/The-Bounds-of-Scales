@@ -1,5 +1,9 @@
-# The Bounds of Scales
+![](https://github.com/jlintgod1/The-Bounds-of-Scales/blob/master/Itch.io%20Page%20Assets/GameLogo_HighRes.png)
 A game about a pinball and snake climbing the city and world in search of mysterious and selfish CEO!
+
+After being fired(NOT laid off) from her job at Jake's Arcade and Game Inc. and getting her belongings stolen, Sandra the Pinball teams up with Twig the Snake to explore the world and find Jake, the horrible robot CEO! Climb through several procedurally-generated levels, dodge enemies and robots, and obtain upgrades to eventually... at some point.... maybe find Jake and take him down?
+
+Available on [itch.io](https://jlintgod.itch.io/the-bounds-of-scales)!
 
 # Copyright Notice
 Copyright (C) 2023  Jlintgod
