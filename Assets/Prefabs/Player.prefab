@@ -44439,7 +44439,10 @@ MonoBehaviour:
   direction: 1
   groundCheck: {fileID: 9001309721974477483}
   DamageParticles: {fileID: 5746945240063149196, guid: 2f053bfb71e76c54c8707eb11ed445b3, type: 3}
+  TakeDamageSound: {fileID: 11400000, guid: 59cac33584b6a3c4281f0860905a6b40, type: 2}
+  DieSound: {fileID: 11400000, guid: 973097b56e46afc48850b9d3729252f5, type: 2}
   jumpParticles: {fileID: 0}
+  JumpSound: {fileID: 11400000, guid: ac34ba4d6085c95458d2ecb299a0a5ad, type: 2}
   snakeBounceHeight: 9
   snakeJumpPanelHeight: 12
   Face: {fileID: 8392454371289620504}
@@ -44458,6 +44461,8 @@ MonoBehaviour:
   ScaleAbilityCPUEffect: {fileID: 5211404778690132632}
   SleepingCPUEffect: {fileID: 4017073425488579624}
   LuckyBreakEffect: {fileID: 1934510989546222999, guid: 59ac713da4e6d444792ff5ce4b66e14b, type: 3}
+  FreeRiseSound: {fileID: 11400000, guid: 5e5692f2eceda5445bfaba5a19913992, type: 2}
+  SnakePanelSound: {fileID: 11400000, guid: 719ab9c7f7335c5419727bbca545a943, type: 2}
   FaceExpressions:
   - {fileID: 1820882129, guid: ff2f6280516be674fa136400405f3d7b, type: 3}
   - {fileID: -800920942, guid: ff2f6280516be674fa136400405f3d7b, type: 3}

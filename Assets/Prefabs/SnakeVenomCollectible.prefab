@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GivesHealth: 0
+  CollectSound: {fileID: 11400000, guid: 597315dfa5d914545a38ceb72d3ffe61, type: 2}
 --- !u!61 &8499242691217830862
 BoxCollider2D:
   m_ObjectHideFlags: 0

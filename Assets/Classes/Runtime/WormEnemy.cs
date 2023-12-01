@@ -11,6 +11,8 @@ public class WormEnemy : Controller
     public float JumpInterval;
     private float JumpTimer;
 
+    public Sound JumpSound;
+
     protected void Start()
     {
         base.Start();
@@ -44,6 +46,7 @@ public class WormEnemy : Controller
         {
             JumpTimer = JumpInterval;
             rigidbody2D.velocity = rigidbody2D.velocity * Vector2.right + Vector2.up * jumpPower;
+            GameManager.PlaySoundAtPoint(JumpSound, transform.position);
         }
     }
 

@@ -15,6 +15,8 @@ public class FlyingTurretEnemy : Controller
     public GameObject bulletTemplate;
     public float shootInterval = 2f;
     public int bulletCount = 4;
+
+    public Sound ShootSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,6 +84,7 @@ public class FlyingTurretEnemy : Controller
             float bulletAngle = (i * (360f / bulletCount) + transform.eulerAngles.z);
             SpawnBullet(new Vector2(Mathf.Sin(Mathf.Deg2Rad * bulletAngle), Mathf.Cos(Mathf.Deg2Rad * bulletAngle)), bulletAngle);
         }
+        GameManager.PlaySoundAtPoint(ShootSound, transform.position);
     }
 
 

@@ -192,3 +192,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FallDelay: 2
+  FallSound: {fileID: 11400000, guid: 55b2647e390cc8c4db86ab0ee2440bc0, type: 2}
+  PreFallSound: {fileID: 11400000, guid: 5b553e90c9e848544b52f3e794bc7f5e, type: 2}

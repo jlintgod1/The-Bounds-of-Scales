@@ -148,3 +148,5 @@ MonoBehaviour:
   fireEffectCPU: {fileID: 8337478298289605553, guid: 9a245eb76dd5854499832c2e54a878a4, type: 3}
   destroyEffectCPU: {fileID: 8337478298289605553, guid: 0926dbda189eceb48b0f455cd9ed0ccf, type: 3}
   fireEffectCPUInstance: {fileID: 0}
+  IgniteSound: {fileID: 11400000, guid: d1815905d742fe346af5c7eeab60441c, type: 2}
+  ExplodeSound: {fileID: 11400000, guid: c5f5aab9929ee0046a8bb596fb8446f5, type: 2}

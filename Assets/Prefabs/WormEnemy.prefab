@@ -375,6 +375,9 @@ MonoBehaviour:
   direction: 1
   groundCheck: {fileID: 8954493142475029766}
   DamageParticles: {fileID: 5746945240063149196, guid: 2f053bfb71e76c54c8707eb11ed445b3, type: 3}
+  TakeDamageSound: {fileID: 11400000, guid: 59cac33584b6a3c4281f0860905a6b40, type: 2}
+  DieSound: {fileID: 11400000, guid: c9094b62dc462974d98e081f5189cea8, type: 2}
   headCollider: {fileID: 8004546902385119429}
   eyeRenderer: {fileID: 0}
   JumpInterval: 0
+  JumpSound: {fileID: 11400000, guid: 111acfb3f299aca409297fd225ed65b5, type: 2}

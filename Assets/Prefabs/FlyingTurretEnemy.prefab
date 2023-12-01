@@ -340,11 +340,14 @@ MonoBehaviour:
   direction: 1
   groundCheck: {fileID: 0}
   DamageParticles: {fileID: 5746945240063149196, guid: 2f053bfb71e76c54c8707eb11ed445b3, type: 3}
+  TakeDamageSound: {fileID: 11400000, guid: 59cac33584b6a3c4281f0860905a6b40, type: 2}
+  DieSound: {fileID: 11400000, guid: c9094b62dc462974d98e081f5189cea8, type: 2}
   face: {fileID: 3535049602395868402}
   jetPack: {fileID: 8589390573893294078}
   bulletTemplate: {fileID: 3715366070003400158, guid: 2bdc129906a077741a0e4750c119e33c, type: 3}
   shootInterval: 3
   bulletCount: 4
+  ShootSound: {fileID: 11400000, guid: ef62a4aacc743654eac965b3c999a2ed, type: 2}
 --- !u!1 &5886199390987810678
 GameObject:
   m_ObjectHideFlags: 0

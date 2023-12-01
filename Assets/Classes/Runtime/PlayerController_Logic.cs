@@ -25,6 +25,9 @@ public class PlayerController_Logic : PlayerController_Movement
     public ParticleSystem SleepingCPUEffect;
     public GameObject LuckyBreakEffect;
 
+    public Sound FreeRiseSound;
+    public Sound SnakePanelSound;
+
     public enum PlayerExpression
     {
         Normal,
@@ -60,6 +63,7 @@ public class PlayerController_Logic : PlayerController_Movement
     {
         InFreeRise = true;
 
+        GameManager.PlaySoundAtPoint(FreeRiseSound, transform.position);
         collider.excludeLayers = LayerMask.GetMask("Ground", "Enemy");
         rigidbody2D.WakeUp();
         // https://forum.unity.com/threads/calculating-projectile-velocity-needed-to-hit-a-target.1205383/
@@ -113,6 +117,7 @@ public class PlayerController_Logic : PlayerController_Movement
             ScaleAbilityCPUEffect.Play();
         else
             ScaleAbilityEffect.Play();
+        GameManager.PlaySoundAtPoint(SnakePanelSound, transform.position);
         Invoke("PostScalePanelAbility", 1.5f);
     }
 
@@ -142,7 +147,7 @@ public class PlayerController_Logic : PlayerController_Movement
         }
 
         if (closestPanel != null)
-            rigidbody2D.velocity += (closestPanel.transform.position - transform.position).normalized * new Vector2(4f, 0);
+            rigidbody2D.velocity += (closestPanel.transform.position - transform.position).normalized * new Vector2(3f, 0);
     }
 
     // Update is called once per frame
@@ -340,6 +345,8 @@ public class PlayerController_Logic : PlayerController_Movement
                 InvincibilityFrames = 0.1f;
             if (collision.gameObject.CompareTag("Enemy"))
                 collision.gameObject.GetComponent<Controller>().TakeDamage(gameObject, 1);
+
+            GameManager.PlaySoundAtPoint(JumpSound, transform.position, 0.66f);
         }
         else if (collision.gameObject.CompareTag("JumpPanel"))
         {
@@ -350,6 +357,8 @@ public class PlayerController_Logic : PlayerController_Movement
             else
                 JumpAbilityEffect.Play();
 
+            GameManager.PlaySoundAtPoint(SnakePanelSound, transform.position);
+
             SetExpression(PlayerExpression.Happy, 1);
             InJumpPanelAbility = true;
         }
@@ -359,6 +368,8 @@ public class PlayerController_Logic : PlayerController_Movement
                 FireAbilityCPUEffect.Play();
             else
                 FireAbilityEffect.Play();
+            GameManager.PlaySoundAtPoint(SnakePanelSound, transform.position);
+
             FireAbilityTimer.gameObject.SetActive(true);
             SetExpression(PlayerExpression.Happy, 1);
             FireTimer = 3.1f;

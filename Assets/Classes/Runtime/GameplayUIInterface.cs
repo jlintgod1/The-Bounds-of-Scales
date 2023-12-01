@@ -13,6 +13,7 @@ public class GameplayUIInterface : MonoBehaviour
     public Slider Timer;
     public TMP_Text LifestealEnemiesRemaining;
     public Material CircleFade;
+    public Sound CircleFadeSound;
     public bool CircleFadeState;
 
     public void UpdateHealth(int Health, int MaxHealth)
@@ -38,6 +39,8 @@ public class GameplayUIInterface : MonoBehaviour
         for (float i = 0; i <= 1; i+=Time.unscaledDeltaTime / time)
         {
             CircleFade.SetFloat("_Radius", Mathf.Lerp(startAlpha, endAlpha, i));
+            if (i <= 0.4 && i + Time.unscaledDeltaTime / time > 0.4)
+                GameManager.PlaySoundAtPoint(CircleFadeSound, new(0, 0, 0));
             yield return null;
         }
         CircleFade.SetFloat("_Radius", endAlpha);

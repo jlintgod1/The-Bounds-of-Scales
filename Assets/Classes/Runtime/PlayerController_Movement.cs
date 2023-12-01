@@ -6,11 +6,12 @@ using UnityEngine;
 public class PlayerController_Movement : Controller
 {
     //private AudioManager audioManager;
-    LocalAudioManager audioManager;
     public ParticleSystem jumpParticles;
     protected InputActions inputActions;
     protected Vector2 moveControlVector;
     protected float jumpPressed;
+
+    public Sound JumpSound;
 
     float CoyoteTime = 0;
     
@@ -34,14 +35,14 @@ public class PlayerController_Movement : Controller
     protected void Start()
     {
         base.Start();
-        audioManager = GetComponent<LocalAudioManager>();
     }
     float Jump()
     {
         bool notRotating = Mathf.Round(Mathf.Abs(transform.eulerAngles.z)) % 90 == 0;
         if (!jumping && jumpPressed > 0 && notRotating && CoyoteTime > 0) {
             jumping = true;
-            //audioManager.Play("Jump");
+            jumpPressed = 0;
+            GameManager.PlaySoundAtPoint(JumpSound, transform.position);
             //jumpParticles.Play();
             //print("Jump!");
             return jumpPower;

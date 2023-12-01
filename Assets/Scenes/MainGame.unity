@@ -1387,13 +1387,13 @@ MonoBehaviour:
   characterDatabase:
   - name: Twig
     icon: {fileID: 21300000, guid: ca06a2a2e55e9f24f8834151272a7753, type: 3}
-    voice: {fileID: 0}
+    voice: {fileID: 11400000, guid: db42de9cb85fb2e438313acda865fdc6, type: 2}
   - name: Sandra
     icon: {fileID: 21300000, guid: 2f5d46ccab29f0b4b97e8a55cbd7b171, type: 3}
-    voice: {fileID: 0}
+    voice: {fileID: 11400000, guid: 58df90042e8344e48af1033bbe046213, type: 2}
   - name: Jake
     icon: {fileID: 21300000, guid: 58e20d41fe248b44bbd269750ab84bbe, type: 3}
-    voice: {fileID: 0}
+    voice: {fileID: 11400000, guid: c97cddf322a5a044aa9f526fbfab436c, type: 2}
   currentDialogueInfo: []
 --- !u!1 &337364289
 GameObject:
@@ -4574,6 +4574,7 @@ MonoBehaviour:
   Timer: {fileID: 847447916}
   LifestealEnemiesRemaining: {fileID: 1441579213}
   CircleFade: {fileID: 2100000, guid: f7db3cf581e3f5343b11e21387178cd7, type: 2}
+  CircleFadeSound: {fileID: 11400000, guid: 52a0c2bcef89c45418d873da981010b4, type: 2}
   CircleFadeState: 0
 --- !u!1 &847447914
 GameObject:
@@ -10963,7 +10964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -64, y: -32}
+  m_AnchoredPosition: {x: -64, y: -40}
   m_SizeDelta: {x: 96, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2063655131

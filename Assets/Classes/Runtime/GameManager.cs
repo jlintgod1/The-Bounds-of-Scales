@@ -252,7 +252,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Copied and modified from AudioSource.PlayClipAtPoint()
-    public static void PlaySoundAtPoint(Sound sound, Vector3 position, float volumeMultiplier=1f, float pitchMultiplier=1f, bool Manual=false)
+    public static AudioSource PlaySoundAtPoint(Sound sound, Vector3 position, float volumeMultiplier=1f, float pitchMultiplier=1f, bool Manual=false)
     {
         GameObject gameObject = new GameObject(sound.name + "OneShot");
         gameObject.transform.position = position;
@@ -273,6 +273,8 @@ public class GameManager : MonoBehaviour
             audioSource.Play();
             Destroy(gameObject, sound.clip.length * ((Time.timeScale < 0.01f) ? 0.01f : Time.timeScale));
         }
+
+        return audioSource;
     }
 
     public void SetGameState(int NewState)
@@ -537,6 +539,14 @@ public class GameManager : MonoBehaviour
 
             SpawnedLevelChunks.Add(portal);
         }
+#if UNITY_EDITOR
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            GameObject portal = Instantiate(HeadstartPortalTemplate[1], HeadstartPortalLocation * new Vector2(-1, 0), Quaternion.identity);
+            portal.GetComponent<LevelExit>().UpdateLevelExit(AllLevelThemes[4]);
+            portal.GetComponent<LevelExit>().AdditionalDifficulty = 0.35f;
+        }
+#endif
 
         PlayedALevel = false;
 

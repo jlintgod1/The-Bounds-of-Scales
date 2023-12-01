@@ -8,6 +8,9 @@ public class FallingPlatform : MonoBehaviour
     public float FallDelay;
     bool Triggered;
     Vector3 OriginalPosition;
+
+    public Sound FallSound;
+    public Sound PreFallSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,7 @@ public class FallingPlatform : MonoBehaviour
 
     void Fall()
     {
+        GameManager.PlaySoundAtPoint(FallSound, transform.position);
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<Rigidbody2D>().gravityScale = 1;
         Destroy(gameObject, 5);
@@ -38,6 +42,7 @@ public class FallingPlatform : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && collision.gameObject.transform.position.y > transform.position.y)
         {
             Triggered = true;
+            GameManager.PlaySoundAtPoint(PreFallSound, transform.position);
             Invoke("Fall", FallDelay);
         }
     }

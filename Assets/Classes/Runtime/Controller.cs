@@ -26,6 +26,8 @@ public class Controller : MonoBehaviour
 
     // Effects
     public GameObject DamageParticles;
+    public Sound TakeDamageSound;
+    public Sound DieSound;
 
     public bool IsGrounded()
     {
@@ -103,6 +105,8 @@ public class Controller : MonoBehaviour
         rigidbody2D.constraints = RigidbodyConstraints2D.None;
         rigidbody2D.angularVelocity = 180;
 
+        GameManager.PlaySoundAtPoint(DieSound, transform.position);
+
         GameManager.Instance.OnControllerDeath(this, Instigator);
 
         Destroy(gameObject, 5);
@@ -116,7 +120,10 @@ public class Controller : MonoBehaviour
         Health = Mathf.Clamp(Health - Damage, 0, MaxHealth);
 
         if (Damage > 0)
+        {
             Instantiate(DamageParticles, transform.position, Quaternion.identity);
+            GameManager.PlaySoundAtPoint(TakeDamageSound, transform.position);
+        }
 
         if (Health <= 0)
         {

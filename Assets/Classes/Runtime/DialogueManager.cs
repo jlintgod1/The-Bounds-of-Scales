@@ -17,9 +17,9 @@ public class DialogueManager : MonoBehaviour
     {
         public string name;
         public Sprite icon;
-        public AudioClip voice;
+        public Sound voice;
 
-        public CharacterInfo(string _name = "", Sprite _icon = null, AudioClip _voice = null)
+        public CharacterInfo(string _name = "", Sprite _icon = null, Sound _voice = null)
         {
             name = _name;
             icon = _icon;
@@ -42,6 +42,7 @@ public class DialogueManager : MonoBehaviour
     public List<CharacterInfo> characterDatabase;
     public List<DialogueInfo> currentDialogueInfo;
     private int currentLine;
+    private Sound currentVoice;
 
     // Start is called before the first frame update
     void Awake()
@@ -95,6 +96,7 @@ public class DialogueManager : MonoBehaviour
         dialogueIcon.sprite = currentCharacter.icon;
         dialogueIcon.gameObject.SetActive(currentCharacter.icon != null);
         dialogueText.text = "";
+        currentVoice = currentCharacter.voice;
 
         StopCoroutine(TypeSentence());
         StartCoroutine(TypeSentence());
@@ -129,6 +131,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         string finalLine = ParseString(currentDialogueInfo[0].lines[currentLine]);
         bool inTag = false;
+        AudioSource voiceSource = GameManager.PlaySoundAtPoint(currentVoice, new(0, 0, 0), 1, 1, true);
         foreach (char letter in finalLine.ToCharArray())
         {
             dialogueText.text += letter;
@@ -138,14 +141,14 @@ public class DialogueManager : MonoBehaviour
             else if (letter == '>')
                 inTag = false;
 
-            //audioManager.Play(dialogueStored.audioClips[currentline-1]);
+            voiceSource.Play();
             if (!inTag)
             {
                 while (PauseMenu.Paused)
                 {
                     yield return null;
                 }
-                for (float i = 0; i <= 0.033; i+=Time.unscaledDeltaTime)
+                for (float i = 0; i <= 0.05; i+=Time.unscaledDeltaTime)
                 {
                     yield return null;
                 }
@@ -162,6 +165,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
         yield return null;
 
+        Destroy(voiceSource.gameObject);
         currentLine++;
         DisplayNextSentence();
     }

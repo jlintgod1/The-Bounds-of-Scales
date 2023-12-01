@@ -15,6 +15,9 @@ public class Crate : MonoBehaviour
     public bool onFire { get; private set; }
     VisualEffect fireEffectComponent;
 
+    public Sound IgniteSound;
+    public Sound ExplodeSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,7 @@ public class Crate : MonoBehaviour
             fireEffectCPUInstance = Instantiate(fireEffectCPU, transform.position, Quaternion.identity);
         else
             fireEffectComponent = GameManager.Instance.SpawnParticleSystem(fireEffect, transform.position);
-
+        GameManager.PlaySoundAtPoint(IgniteSound, transform.position);
 
         Collider2D[] surroundingColliders = Physics2D.OverlapBoxAll(transform.position, new(3, 3), 0);
         foreach (var item in surroundingColliders)
@@ -69,24 +72,29 @@ public class Crate : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (fireEffectComponent != null)
+        if (onFire)
         {
-            fireEffectComponent.Stop();
-            Destroy(fireEffectComponent.gameObject, 3);
-        }
-        if (fireEffectCPUInstance != null)
-        {
-            fireEffectCPUInstance.GetComponent<ParticleSystem>().Stop();
-        }
+            if (fireEffectComponent != null)
+            {
+                fireEffectComponent.Stop();
+                Destroy(fireEffectComponent.gameObject, 3);
+            }
+            if (fireEffectCPUInstance != null)
+            {
+                fireEffectCPUInstance.GetComponent<ParticleSystem>().Stop();
+            }
 
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            Instantiate(destroyEffectCPU, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            VisualEffect destroyEffectComponent = GameManager.Instance.SpawnParticleSystem(destroyEffect, transform.position);
-            Destroy(destroyEffectComponent.gameObject, 5);
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                Instantiate(destroyEffectCPU, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                VisualEffect destroyEffectComponent = GameManager.Instance.SpawnParticleSystem(destroyEffect, transform.position);
+                Destroy(destroyEffectComponent.gameObject, 5);
+            }
+
+            GameManager.PlaySoundAtPoint(ExplodeSound, transform.position);
         }
 
         Destroy(gameObject);

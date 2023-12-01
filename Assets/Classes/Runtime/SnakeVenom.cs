@@ -7,6 +7,7 @@ public class SnakeVenom : MonoBehaviour
     Vector3 InitalPosition;
     bool Collected;
     public bool GivesHealth;
+    public Sound CollectSound;
     // Start is called before the first frame update
     protected void Start()
     {
@@ -29,7 +30,7 @@ public class SnakeVenom : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Collected = true;
-            // TO-DO: Collect sound
+            GameManager.PlaySoundAtPoint(CollectSound, transform.position);
             // TO-DO: Collect particles
 
             GameManager.Instance.OnCollectCollectible(this);

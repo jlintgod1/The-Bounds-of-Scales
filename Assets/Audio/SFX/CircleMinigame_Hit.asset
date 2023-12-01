@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 075ae89c042583f4f9e3e4b4da64e0cc, type: 3}
   oggClip: {fileID: 0}
-  volume: 1
+  volume: 0.903
   pitch: 1
   loop: 0
   spatialAmount: 0
