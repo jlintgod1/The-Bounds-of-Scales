@@ -66,7 +66,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _Fog_Color: {r: 1, g: 1, b: 1, a: 0.023529412}
+    - _Fog_Color: {r: 0.6052386, g: 1, b: 0.53396225, a: 0.023529412}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2371936978881894009
